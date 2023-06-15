@@ -1,0 +1,18 @@
+@import '../../assets/styles/abstract/variaveis';
+
+.bg-header {
+
+    background-color: $first-color;
+
+    .navbar-brand {
+        font-family: $font-page;
+        color: $font-color-light;
+        font-weight: lighter;
+        transition: 0.5s;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+
+}
