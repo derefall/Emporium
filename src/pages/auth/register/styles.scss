@@ -1,0 +1,79 @@
+@import '../../../assets/styles/abstract/variaveis';
+
+svg {
+    height: 1.5em !important;
+}
+
+.bg-register {
+
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .colored-bg {
+
+        background: $third-color;
+        height: 50%;
+        width: 100%;
+
+    }
+
+    .white-bg {
+
+        background: #f2f2f2;
+        height: 50%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+    }
+
+    .register-modal {
+
+        position: absolute;
+        top: 15%;
+        background-color: white;
+        padding: 25px 30px;
+        width: auto;
+
+        h3,
+        h4 {
+            text-align: center;
+            font-family: $font-page;
+            margin-bottom: 40px;
+        }
+
+        input,
+        textarea {
+            background-color: transparent !important;
+            color: $font-color-dark !important;
+            border-color: #000000 !important;
+            stroke: #000000 !important;
+            border-radius: 0 !important;
+            border-top-width: 0 !important;
+            border-top-style: none !important;
+            border-right-width: 0 !important;
+            border-right-style: none !important;
+            border-left-width: 0 !important;
+            border-left-style: none !important;
+            font-size: 14px !important;
+            padding: 10px 18px !important;
+
+            &::placeholder {
+                color: $second-color !important;
+                font-weight: 100;
+            }
+
+            &:focus,
+            &:focus-visible {
+                border-color: $third-color !important;
+                stroke: $third-color !important;
+                box-shadow: none !important;
+            }
+        }
+
+    }
+
+}

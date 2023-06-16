@@ -12,9 +12,8 @@ body,
     height: 100%;
 }
 
-
 button {
-    background-color: $second-color !important;
+    background-color: $first-color !important;
     color: $font-color-light !important;
     border-color: $second-color !important;
     border-radius: 15px !important;
@@ -48,7 +47,8 @@ input {
         font-weight: 100;
     }
 
-    &:focus {
+    &:focus,
+    &:focus-visible {
         box-shadow: 0 0 0 0.25rem rgba(132, 58, 230, 0.25) !important;
     }
 

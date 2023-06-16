@@ -226,12 +226,16 @@ $size: 190px; // (Fully responsive)
 
 /* General page styling */
 .bg-home {
-    height: 90%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     background: $color-black;
+
+    button {
+        background-color: $second-color !important;
+    }
 }
 
 h5 {
