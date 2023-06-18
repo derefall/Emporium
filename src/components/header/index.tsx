@@ -29,7 +29,7 @@ export default function Header() {
         <Navbar sticky-top collapseOnSelect expand="lg" className="bg-header" variant="dark">
             <Container className="my-3">
 
-                <Navbar.Brand>emporium.</Navbar.Brand>
+                <Navbar.Brand onClick={() => { navigate('/') }}>emporium.</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
 
                 <Row>

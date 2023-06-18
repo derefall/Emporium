@@ -1,7 +1,9 @@
+import { useNavigate } from 'react-router-dom';
 import { Button } from "react-bootstrap";
 import './styles.scss';
 
 export default function Home() {
+    const navigate = useNavigate();
 
     return (
 
@@ -23,7 +25,7 @@ export default function Home() {
 
             <div className="d-flex  align-items-center flex-column">
 
-                <Button className="mb-3 buttonDefault">
+                <Button onClick={() => { navigate('/topicos') }} className="mb-3 buttonDefault">
                     explorar
                 </Button>
 
