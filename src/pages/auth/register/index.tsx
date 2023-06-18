@@ -1,13 +1,22 @@
-import { Row, Col, Container, Form, Button, Modal } from "react-bootstrap";
+import { Row, Col, Container, Form, Button, Modal, Spinner } from "react-bootstrap";
 import './styles.scss';
 import { useState } from "react";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLightbulb, faCheckDouble, faPenNib } from '@fortawesome/free-solid-svg-icons'
+import { CreateUser } from "../../../types/user";
+import createUser from "../../../services/emporium/auth";
+import { ReturnApi } from "../../../types/return";
+import AlertToast from "../../../components/alertToast";
+import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
 
+    const navigate = useNavigate();
+
     const [show, setShow] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [validated, setValidated] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -15,6 +24,77 @@ export default function Register() {
     const lamp = <FontAwesomeIcon icon={faLightbulb} size="xl" color="#9582ab" />
     const check = <FontAwesomeIcon icon={faCheckDouble} size="xl" color="#9582ab" />
     const pen = <FontAwesomeIcon icon={faPenNib} size="xl" color="#9582ab" />
+
+    const defaultForm = {
+        name: '',
+        description: '',
+        public_name: '',
+        email: '',
+        password: '',
+        telegram: '',
+        instagram: '',
+        facebook: ''
+    }
+
+
+    const [formUser, setFormUser] = useState<CreateUser>(defaultForm)
+
+    const handleChange = (e: any) => {
+        e.currentTarget.checkValidity()
+        setFormUser({
+            ...formUser,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    const handleSubmit = (e: any) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const form = e.currentTarget;
+
+        if (form.checkValidity() === true) {
+            handleShow()
+        }
+
+        setValidated(true);
+
+    };
+
+    const handleCreateUser = async () => {
+        setLoading(true)
+
+        if (formUser.facebook === '') {
+            delete formUser.facebook
+        }
+        if (formUser.instagram === '') {
+            delete formUser.instagram
+        }
+        if (formUser.public_name === '') {
+            delete formUser.public_name
+        }
+
+        const result: ReturnApi = await createUser(formUser);
+        if (result.status === 201) {
+            handleClose();
+
+            AlertToast(
+                'Usuário criado com sucesso!',
+                'success'
+            )
+            setValidated(false);
+            setFormUser(defaultForm);
+            navigate('/login')
+
+        } else {
+            AlertToast(
+                'Erro na criação do usuário.',
+                'error'
+            )
+        }
+
+        setLoading(false)
+
+    };
 
     return (
 
@@ -76,8 +156,18 @@ export default function Register() {
                                 <Button onClick={handleClose}>
                                     Voltar
                                 </Button>
-                                <Button onClick={handleClose}>
-                                    Enviar
+                                <Button onClick={handleCreateUser}>
+                                    {!loading ?
+                                        'Enviar' :
+                                        <Spinner
+                                            as="span"
+                                            animation="border"
+                                            size="sm"
+                                            role="status"
+                                            aria-hidden="true"
+                                        />
+                                    }
+
                                 </Button>
                             </Modal.Footer>
                         </Modal>
@@ -88,11 +178,19 @@ export default function Register() {
 
                                 <div>
 
-                                    <Form>
+                                    <Form noValidate validated={validated} onSubmit={handleSubmit}>
                                         <Row>
-                                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                            <Form.Group className="mb-3" controlId="name">
                                                 <Form.Label>Nome</Form.Label>
-                                                <Form.Control type="text" placeholder="John Doe" />
+                                                <Form.Control
+                                                    required
+                                                    type="text"
+                                                    placeholder="John Doe"
+                                                    name="name"
+                                                    value={formUser.name}
+                                                    onChange={handleChange}
+                                                />
+                                                <Form.Control.Feedback type="invalid">Insira seu nome.</Form.Control.Feedback>
                                             </Form.Group>
 
                                         </Row>
@@ -100,16 +198,34 @@ export default function Register() {
                                         <Row>
 
                                             <Col>
-                                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                                <Form.Group className="mb-3" controlId="email">
                                                     <Form.Label>E-mail</Form.Label>
-                                                    <Form.Control type="email" placeholder="name@example.com" />
+                                                    <Form.Control
+                                                        required
+                                                        pattern="^\w+@\w+\.\w+$"
+                                                        type="email"
+                                                        placeholder="name@example.com"
+                                                        name="email"
+                                                        value={formUser.email}
+                                                        onChange={handleChange}
+                                                    />
+                                                    <Form.Control.Feedback type="invalid">Insira um e-mail válido. Ele será usado no login!</Form.Control.Feedback>
                                                 </Form.Group>
                                             </Col>
 
                                             <Col>
-                                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                                <Form.Group className="mb-3" controlId="password">
                                                     <Form.Label>Senha</Form.Label>
-                                                    <Form.Control type="password" placeholder="#SenhaForte145" />
+                                                    <Form.Control
+                                                        required
+                                                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{8,}$"
+                                                        type="password"
+                                                        placeholder="#SenhaForte145"
+                                                        name="password"
+                                                        value={formUser.password}
+                                                        onChange={handleChange}
+                                                    />
+                                                    <Form.Control.Feedback type="invalid">A senha deve conter letras maiusculas, minusculas, números e símbolos.</Form.Control.Feedback>
                                                 </Form.Group>
                                             </Col>
 
@@ -117,15 +233,29 @@ export default function Register() {
 
                                         <Row>
                                             <Col>
-                                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                                <Form.Group className="mb-3" controlId="public_name">
                                                     <Form.Label>Nome Publico</Form.Label>
-                                                    <Form.Control type="text" placeholder="O Mágico John" />
+                                                    <Form.Control
+                                                        type="text"
+                                                        placeholder="O Mágico John"
+                                                        name="public_name"
+                                                        value={formUser.public_name}
+                                                        onChange={handleChange}
+                                                    />
                                                 </Form.Group>
                                             </Col>
                                             <Col>
-                                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                                <Form.Group className="mb-3" controlId="telegram">
                                                     <Form.Label>Telegram</Form.Label>
-                                                    <Form.Control type="link" placeholder="link" />
+                                                    <Form.Control
+                                                        required
+                                                        type="link"
+                                                        placeholder="link"
+                                                        name="telegram"
+                                                        value={formUser.telegram}
+                                                        onChange={handleChange}
+                                                    />
+                                                    <Form.Control.Feedback type="invalid">É necessário um Telegram para que possamos entrar em contato.</Form.Control.Feedback>
                                                 </Form.Group>
                                             </Col>
                                         </Row>
@@ -133,30 +263,50 @@ export default function Register() {
                                         <Row>
 
                                             <Col>
-                                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                                <Form.Group className="mb-3" controlId="facebook">
                                                     <Form.Label>Facebook</Form.Label>
-                                                    <Form.Control type="link" placeholder="link" />
+                                                    <Form.Control
+                                                        type="link"
+                                                        placeholder="link"
+                                                        name="facebook"
+                                                        value={formUser.facebook}
+                                                        onChange={handleChange}
+                                                    />
                                                 </Form.Group>
                                             </Col>
 
                                             <Col>
-                                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                                <Form.Group className="mb-3" controlId="instagram">
                                                     <Form.Label>Instagram</Form.Label>
-                                                    <Form.Control type="link" placeholder="link" />
+                                                    <Form.Control
+                                                        type="link"
+                                                        placeholder="link"
+                                                        name="instagram"
+                                                        value={formUser.instagram}
+                                                        onChange={handleChange}
+                                                    />
                                                 </Form.Group>
                                             </Col>
 
                                         </Row>
 
                                         <Row>
-                                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                            <Form.Group className="mb-3" controlId="description">
                                                 <Form.Label>Sobre o que você quer escrever no Emporium?</Form.Label>
-                                                <Form.Control as="textarea" rows={2} />
+                                                <Form.Control
+                                                    required
+                                                    as="textarea"
+                                                    rows={2}
+                                                    name="description"
+                                                    value={formUser.description}
+                                                    onChange={handleChange}
+                                                />
+                                                <Form.Control.Feedback type="invalid">Precisamos saber mais sobre você e sobre o que quer escrever.</Form.Control.Feedback>
                                             </Form.Group>
 
                                         </Row>
 
-                                        <Button onClick={handleShow} className="w-100 mt-4">
+                                        <Button type="submit" className="w-100 mt-4">
                                             Enviar
                                         </Button>
 
