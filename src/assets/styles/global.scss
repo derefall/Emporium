@@ -12,7 +12,7 @@ body,
     height: 100%;
 }
 
-button {
+.buttonDefault {
     background-color: $first-color !important;
     color: $font-color-light !important;
     border-color: $second-color !important;
@@ -52,7 +52,8 @@ button {
     }
 }
 
-input {
+input,
+select {
 
     background-color: $second-color !important;
     color: $font-color-light !important;

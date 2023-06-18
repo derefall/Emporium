@@ -1,0 +1,21 @@
+@import '../../assets/styles/abstract/variaveis';
+
+.title {
+
+    font-weight: lighter !important;
+    font-family: $font-page !important;
+    padding-left: 90px !important;
+    position: relative;
+
+    &:before {
+        content: "";
+        display: block;
+        width: 60px;
+        height: 2px;
+        background: $font-color-light;
+        left: 1%;
+        top: 50%;
+        position: absolute;
+    }
+
+}

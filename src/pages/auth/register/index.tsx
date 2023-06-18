@@ -5,10 +5,11 @@ import { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLightbulb, faCheckDouble, faPenNib } from '@fortawesome/free-solid-svg-icons'
 import { CreateUser } from "../../../types/user";
-import createUser from "../../../services/emporium/auth";
+import { createUser } from "../../../services/emporium/auth";
 import { ReturnApi } from "../../../types/return";
 import AlertToast from "../../../components/alertToast";
 import { useNavigate } from 'react-router-dom';
+import { defaultForm } from "../constants";
 
 export default function Register() {
 
@@ -17,6 +18,7 @@ export default function Register() {
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
     const [validated, setValidated] = useState(false);
+    const [formUser, setFormUser] = useState<CreateUser>(defaultForm)
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -24,20 +26,6 @@ export default function Register() {
     const lamp = <FontAwesomeIcon icon={faLightbulb} size="xl" color="#9582ab" />
     const check = <FontAwesomeIcon icon={faCheckDouble} size="xl" color="#9582ab" />
     const pen = <FontAwesomeIcon icon={faPenNib} size="xl" color="#9582ab" />
-
-    const defaultForm = {
-        name: '',
-        description: '',
-        public_name: '',
-        email: '',
-        password: '',
-        telegram: '',
-        instagram: '',
-        facebook: ''
-    }
-
-
-    const [formUser, setFormUser] = useState<CreateUser>(defaultForm)
 
     const handleChange = (e: any) => {
         e.currentTarget.checkValidity()
@@ -153,10 +141,10 @@ export default function Register() {
 
                             </Modal.Body>
                             <Modal.Footer>
-                                <Button onClick={handleClose}>
+                                <Button className="buttonDefault" onClick={handleClose}>
                                     Voltar
                                 </Button>
-                                <Button onClick={handleCreateUser}>
+                                <Button className="buttonDefault" onClick={handleCreateUser}>
                                     {!loading ?
                                         'Enviar' :
                                         <Spinner
@@ -306,7 +294,7 @@ export default function Register() {
 
                                         </Row>
 
-                                        <Button type="submit" className="w-100 mt-4">
+                                        <Button type="submit" className="buttonDefault w-100 mt-4">
                                             Enviar
                                         </Button>
 

@@ -1,5 +1,6 @@
 export interface ReturnApi {
     status: number;
-    message: string;
-    records: any;
+    message?: string;
+    error?: string;
+    records?: any;
 }

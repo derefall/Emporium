@@ -1,0 +1,40 @@
+@import '../../assets/styles/abstract/variaveis';
+
+.createDiv {
+
+    background-color: $gray-auxiliar;
+    padding: 30px;
+
+    input {
+        background-color: $first-color !important;
+    }
+
+}
+
+.selectDiv {
+
+    margin-top: 50px;
+
+    input,
+    select {
+        background-color: $first-color !important;
+    }
+
+}
+
+.textCreateDiv {
+
+    .ql-toolbar.ql-snow {
+        background-color: $gray-auxiliar !important;
+        padding: 18px !important;
+        border-color: $gray-auxiliar !important;
+        font-size: 14px !important;
+
+    }
+
+    .ql-editor {
+        height: 600px;
+        overflow: auto;
+    }
+
+}

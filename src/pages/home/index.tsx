@@ -23,7 +23,7 @@ export default function Home() {
 
             <div className="d-flex  align-items-center flex-column">
 
-                <Button className="mb-3">
+                <Button className="mb-3 buttonDefault">
                     explorar
                 </Button>
 
