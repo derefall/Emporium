@@ -20,17 +20,17 @@ Para rodar os testes unitários é:
 
 1 - Elementos compartilhados:
 
--> Header
+-> Header :white_check_mark:
 -> Footer
--> Login (redux)
+-> Login (redux) :white_check_mark:
 
 2 - Criar conta
--> Formulário com dados para criar usuário e login
--> Redireciona para login para guardar token
+-> Formulário com dados para criar usuário e login :white_check_mark:
+-> Redireciona para login para guardar token :white_check_mark:
 
 3 - Home
--> Gatinho
--> Botão
+-> Gatinho :white_check_mark:
+-> Botão :white_check_mark:
 
  4 - Tópicos
 -> Lista de tópicos divididos por científico ou não
@@ -49,6 +49,6 @@ Para rodar os testes unitários é:
 -> Área com dados do criador da matéria
 
 8 - Criador
--> Área de criação de trilha e conteúdo
--> Área criação do artigo
+-> Área de criação de trilha e conteúdo :white_check_mark:
+-> Área criação do artigo :white_check_mark:
 
