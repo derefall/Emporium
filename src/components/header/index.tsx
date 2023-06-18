@@ -18,7 +18,7 @@ export default function Header() {
     function isLogged() {
 
         if (token && user) {
-            navigate('/criador')
+            navigate('/artigos-criador')
         } else {
             navigate('/login')
         }

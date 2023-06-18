@@ -21,7 +21,6 @@ async function getUserById(id: any) {
                 'Authorization': `Bearer ${token}`
             }
         });
-        console.log('retorno user by id', user)
         return user.data;
     } catch (error: any) {
         return error

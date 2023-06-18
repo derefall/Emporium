@@ -10,6 +10,7 @@ import Login from './pages/auth/login';
 import { UserProvider } from './contexts/userContext';
 import Creator from './pages/creator';
 import Topics from './pages/topics';
+import CreatorArticles from './pages/creator/articles';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/topicos" element={<Topics />} />
+          <Route path="/artigos-criador" element={<CreatorArticles />} />
           <Route path="/criador" element={<Creator />} />
           <Route path="/registro" element={<Register />} />
           <Route path="/login" element={<Login />} />
