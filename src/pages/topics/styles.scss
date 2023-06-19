@@ -1,6 +1,23 @@
 @import '../../assets/styles/abstract/variaveis';
 
 
+.roundItem {
+    padding: 15px;
+    margin-right: 20px;
+    cursor: pointer;
+
+    &:hover {
+        transform: scale(1.1) !important;
+    }
+
+    .topicItem {
+        border-bottom: 1px solid $third-color;
+        font-weight: 400;
+        font-size: 18px;
+        font-family: $font-page;
+    }
+}
+
 .bodyBg {
     margin: 0;
     overflow: hidden;

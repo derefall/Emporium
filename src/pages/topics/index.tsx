@@ -1,19 +1,67 @@
-import { Container } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import Title from "../../components/title";
 import './styles.scss'
+import { useState, useEffect } from "react";
+import { ReturnApi } from "../../types/return";
+import { getTopics } from "../../services/emporium/topics";
+import { useNavigate } from 'react-router-dom';
+import { Topic } from "../../types/topic";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFlask, faHandsPraying } from '@fortawesome/free-solid-svg-icons'
 
 export default function Topics() {
+    const navigate = useNavigate();
+    const [topics, setTopics] = useState([]);
+
+    const religion = <FontAwesomeIcon icon={faHandsPraying} size="lg" color="#9582ab" />
+    const science = <FontAwesomeIcon icon={faFlask} size="lg" color="#9582ab" />
+
+    async function reqTopics() {
+        const result: ReturnApi = await getTopics()
+
+        if (result.status === 200) {
+            setTopics(result.records)
+        }
+    }
+
+    useEffect(() => {
+        reqTopics()
+    }, [])
 
     return (
 
         <>
-            <Container className="mt-5">
+            <Container className="my-5">
 
                 <Title title='Sobre o que você quer ler?' />
 
-                <div>
+                {topics.map((topic: Topic) => (
+                    !topic.scientific ?
+                        <Col md="5" sm="12" className="roundItem" onClick={() => { navigate(`/trilhas/` + topic.id) }}>
+                            <Row>
+                                <Col md="2">
+                                    {religion}
+                                </Col>
+                                <Col ms="10" className="topicItem">
+                                    <p>{topic.name}</p>
+                                </Col>
+                            </Row>
+                        </Col> : ''
+                ))}
 
-                </div>
+                {topics.map((topic: Topic) => (
+                    topic.scientific ?
+                        <Col md="5" sm="12" className="roundItem" onClick={() => { navigate(`/trilhas/` + topic.id) }}>
+                            <Row>
+                                <Col md="2">
+                                    {science}
+                                </Col>
+                                <Col ms="10" className="topicItem">
+                                    <p>{topic.name}</p>
+                                </Col>
+                            </Row>
+                        </Col> : ''
+                ))}
 
             </Container>
 
