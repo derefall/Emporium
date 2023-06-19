@@ -1,6 +1,6 @@
 import { api } from '../../index'
 
-async function getTrailsByTopicId(id: string) {
+async function getTrailsByTopicId(id?: string) {
     if (id) {
         try {
             const trails = await api.get(`/trail/${id}`);
