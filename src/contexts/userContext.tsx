@@ -1,9 +1,9 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { User } from "../types/user";
-import { getTokenCookies } from "../utils/tokenCookies";
 import jwt_decode from "jwt-decode";
 import { getUserById } from "../services/emporium/auth";
 import { ReturnApi } from "../types/return";
+import { getTokenCookies } from "../utils/tokenCookies";
 
 type UserContextType = {
     token: string | undefined;
@@ -18,16 +18,17 @@ export function UserProvider(props: any) {
 
     const [token, setToken] = useState<string>();
     const [user, setUser] = useState<User>();
-    const tokenStore = getTokenCookies()
-
-    console.log('aaa', token, user)
 
     useEffect(() => {
+        console.log('é chamado')
         handleUserSession();
-    }, []);
+    }, [token]);
 
 
     async function handleUserSession() {
+
+        const tokenStore = getTokenCookies()
+
         if (tokenStore) {
 
             const userDecoded: string = jwt_decode(tokenStore);

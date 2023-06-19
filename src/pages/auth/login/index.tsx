@@ -1,6 +1,6 @@
 import { Row, Col, Container, Form, Button, Modal, Spinner } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
-import { useState } from "react";
+import React, { useState } from "react";
 import '../register/styles.scss';
 import { LoginUser } from "../../../types/user";
 import { defaultLogin } from "../constants";
@@ -9,6 +9,7 @@ import { ReturnApi } from "../../../types/return";
 import AlertToast from "../../../components/alertToast";
 import { getTokenCookies, setTokenCookies } from "../../../utils/tokenCookies";
 import Cookies from 'universal-cookie';
+import { UserContext } from "../../../contexts/userContext";
 
 export default function Login() {
 
@@ -17,6 +18,7 @@ export default function Login() {
     const [loading, setLoading] = useState(false);
     const [validated, setValidated] = useState(false);
     const [formUser, setFormUser] = useState<LoginUser>(defaultLogin)
+    const { setToken } = React.useContext(UserContext)
 
     const handleChange = (e: any) => {
         e.currentTarget.checkValidity()
@@ -41,6 +43,10 @@ export default function Login() {
                 setFormUser(defaultLogin);
 
                 setTokenCookies(result.records.token)
+                const tokenStore = getTokenCookies()
+                setToken(tokenStore)
+
+                navigate("/artigos-criador")
 
             } else {
                 AlertToast(

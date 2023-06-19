@@ -11,6 +11,10 @@ export function setTokenCookies(token: string) {
 
 }
 
+export function deleteTokenCookies() {
+    localStorage.removeItem('emporiumAccessToken')
+}
+
 export function getTokenCookies() {
     const cookies = new Cookies();
     // const token = cookies.get('emporiumAccessToken')
