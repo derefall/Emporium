@@ -14,4 +14,13 @@ async function getArticlesByUser(token?: string, userId?: string) {
     }
 }
 
-export { getArticlesByUser };
+async function getArticlesByContent(id: string) {
+    try {
+        const articles = await api.get(`/article/content/${id}`);
+        return articles.data;
+    } catch (error: any) {
+        return error
+    }
+}
+
+export { getArticlesByUser, getArticlesByContent };

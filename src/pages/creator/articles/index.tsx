@@ -25,7 +25,7 @@ export default function CreatorArticles() {
 
     useEffect(() => {
         reqArticlesByUser()
-    }, [])
+    }, [token])
 
     return (
 

@@ -8,3 +8,9 @@ export interface Article {
     user: User;
     updatedAt: string;
 }
+
+export interface ArticleContent {
+    id: string;
+    title: string;
+    articles: Article[];
+}

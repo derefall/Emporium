@@ -1,6 +1,6 @@
 import { Accordion, Container, Row, Col, Button } from "react-bootstrap";
 import Title from "../../components/title";
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import './styles.scss'
 import { useEffect, useState } from "react";
 import { ReturnApi } from "../../types/return";
@@ -10,6 +10,7 @@ import { Trail } from "../../types/trail";
 export default function Trails() {
     const { id } = useParams();
     const [trails, setTrails] = useState<Trail[]>([]);
+    const navigate = useNavigate();
 
     async function reqTrailsByTopicId() {
         const result: ReturnApi = await getTrailsByTopicId(id)
@@ -27,7 +28,10 @@ export default function Trails() {
 
         <Container>
 
-            <Title title={`Trilhas de aprendizado para ${trails.length > 0 ? trails[0].topic.name : ''}`} />
+            {
+                trails.length > 0 ? <Title title={`Trilhas de aprendizado para ${trails ? trails[0].topic.name : ''}`} /> :
+                    <Title title="Ainda não possuímos trilhas para esse tópico!" />
+            }
 
             <Accordion>
                 {
@@ -47,7 +51,7 @@ export default function Trails() {
                                         {trail.description}
                                     </Col>
                                     <Col md="2" className="text-end">
-                                        <Button className="buttonDefault">Ver</Button>
+                                        <Button className="buttonDefault" onClick={() => { navigate(`/conteudos/` + trail.id) }}>Ver</Button>
                                     </Col>
                                 </Row>
                             </Accordion.Body>
