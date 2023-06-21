@@ -33,18 +33,18 @@ Para rodar os testes unitários é:
 -> Botão :white_check_mark:
 
  4 - Tópicos
--> Lista de tópicos divididos por científico ou não
--> Informativo quem somos
--> Informativo Como pode ajudar
+-> Lista de tópicos divididos por científico ou não :white_check_mark:
+-> Informativo quem somos :white_check_mark:
+-> Informativo Como pode ajudar :white_check_mark:
 
 5 - Trilhas
--> Lista de trilhas do tópico selecionado
+-> Lista de trilhas do tópico selecionado :white_check_mark:
 
 6 -Conteúdos
--> Lista de conteúdos e seus artigos
+-> Lista de conteúdos e seus artigos :white_check_mark:
 
 7 - Artigo
--> Título e subtítulo
+-> Título e subtítulo :white_check_mark:
 -> Matéria
 -> Área com dados do criador da matéria
 
