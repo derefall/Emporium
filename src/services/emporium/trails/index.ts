@@ -1,3 +1,4 @@
+import { CreateTrail } from '../../../types/trail';
 import { api } from '../../index'
 
 async function getTrailsByTopicId(id?: string) {
@@ -11,4 +12,17 @@ async function getTrailsByTopicId(id?: string) {
     }
 }
 
-export { getTrailsByTopicId };
+async function createTrail(trail: CreateTrail, token?: string) {
+    try {
+        const trailCreated = await api.post('/trail', trail, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return trailCreated.data;
+    } catch (error: any) {
+        return error
+    }
+}
+
+export { getTrailsByTopicId, createTrail };

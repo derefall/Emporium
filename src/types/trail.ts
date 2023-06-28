@@ -11,3 +11,10 @@ export interface Trail {
     updatedAt: string;
     deletedAt: string | null;
 }
+
+export interface CreateTrail {
+    name: string;
+    description: string;
+    topic: string;
+    user: string;
+}

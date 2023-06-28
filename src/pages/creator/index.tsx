@@ -7,26 +7,50 @@ import './styles.scss'
 import { ReturnApi } from '../../types/return';
 import { getTopics } from '../../services/emporium/topics';
 import { Topic } from '../../types/topic';
-import { defaultSelect } from './constants';
-import { getTrailsByTopicId } from '../../services/emporium/trails';
+import { defaultSelect, defaulFormItems, mountBodyTrailCreate, mountBodyContentCreate, mountBodyArticleCreate, defaulFormArticle } from './constants';
+import { createTrail, getTrailsByTopicId } from '../../services/emporium/trails';
 import { Trail } from '../../types/trail';
-import { getContentByTrailId } from '../../services/emporium/content';
+import { createContent, getContentByTrailId } from '../../services/emporium/content';
 import { Content } from '../../types/content';
+import AlertToast from "../../components/alertToast";
+import { createArticle } from '../../services/emporium/articles';
 
 export default function Creator() {
 
     const { token, user } = React.useContext(UserContext)
-    const [topicsUser, setTopicsUser] = useState([]);
+    const [topicsUser, setTopicsUser] = useState<Topic[]>([]);
     const [trailsTopic, setTrailsTopic] = useState([]);
+    const [allTrailsTopic, setAllTrailsTopic] = useState([]);
     const [contentTrail, setContentTrailc] = useState([]);
+
     const [loading, setLoading] = useState(false);
-    const [value, setValue] = useState('');
+
+    const [valueArticle, setValueArticle] = useState('');
     const [selectOptions, setSelectOptions] = useState(defaultSelect);
+    const [selectItemsOpt, setSelectItemsOpt] = useState(defaultSelect);
+    const [formItems, setFormItems] = useState(defaulFormItems)
+
+    const [formArticle, setFormArticle] = useState(defaulFormArticle)
 
 
     const handleOptionChange = (event: any) => {
         setSelectOptions({
             ...selectOptions,
+            [event.target.name]: event.target.value
+        });
+    };
+
+    const handleOptionItemsChange = (event: any) => {
+        setSelectItemsOpt({
+            ...selectItemsOpt,
+            [event.target.name]: event.target.value
+        });
+    };
+
+
+    const handleItems = (event: any) => {
+        setFormItems({
+            ...formItems,
             [event.target.name]: event.target.value
         });
     };
@@ -49,17 +73,136 @@ export default function Creator() {
 
     async function reqTrailsByTopic() {
         const result: ReturnApi = await getTrailsByTopicId(selectOptions.topic)
-        if (result.status === 200) {
+        if (result && result.status === 200) {
             setTrailsTopic(result.records)
         }
     }
 
+    async function reqAllTrailsByTopic() {
+        const allTrailReturn: any = []
+
+        for (const topic of topicsUser) {
+            const result: ReturnApi = await getTrailsByTopicId(topic.id)
+            if (result.status === 200 && result.records.length > 0) {
+                if (result.records.length > 0) {
+                    result.records.forEach((trailsTopic: any) => {
+                        allTrailReturn.push(trailsTopic)
+                    });
+
+                }
+
+            }
+        }
+        setAllTrailsTopic(allTrailReturn)
+    }
+
     async function reqContentByTrail() {
         const result: ReturnApi = await getContentByTrailId(selectOptions.trail)
-        if (result.status === 200) {
+        if (result && result.status === 200) {
             setContentTrailc(result.records)
         }
     }
+
+    async function handleCreateItems() {
+        setLoading(true)
+        if (user?.active) {
+
+            if (formItems.trailName) {
+                const trailBody = mountBodyTrailCreate(
+                    formItems.trailName,
+                    formItems.trailDescription,
+                    selectItemsOpt.topic,
+                    user.id
+                )
+
+                const trailReturn = await createTrail(
+                    trailBody,
+                    token
+                )
+
+                if (trailReturn.status === 201) {
+                    AlertToast(
+                        'Trilha criada com sucesso!',
+                        'success'
+                    )
+
+                    reqTrailsByTopic()
+                    reqAllTrailsByTopic()
+                }
+            }
+
+            if (formItems.content) {
+                const contentBody = mountBodyContentCreate(
+                    formItems.content,
+                    selectItemsOpt.trail,
+                    user.id
+                )
+
+                const contentReturn = await createContent(
+                    contentBody,
+                    token
+                )
+
+                if (contentReturn.status === 201) {
+                    AlertToast(
+                        'Conteúdo criado com sucesso!',
+                        'success'
+                    )
+                }
+            }
+            setLoading(false)
+            setFormItems(defaulFormItems);
+        }
+    }
+
+    const handleArticleText = (event: any) => {
+        setFormArticle({
+            ...formArticle,
+            [event.target.name]: event.target.value
+        });
+    };
+
+    async function setText(value: any) {
+        setValueArticle(value)
+    }
+
+    async function sendArticle() {
+        setLoading(true)
+
+        if (user?.active) {
+
+            const articleBody = mountBodyArticleCreate(
+                formArticle.title,
+                formArticle.subtitle,
+                valueArticle,
+                selectOptions.content,
+                user.id
+            )
+
+            console.log('oq vai', articleBody)
+
+            const articleReturn = await createArticle(
+                articleBody,
+                token
+            )
+
+            if (articleReturn.status === 201) {
+                AlertToast(
+                    'Artigo criado com sucesso!',
+                    'success'
+                )
+            }
+
+        }
+        setFormArticle(defaulFormArticle)
+        setValueArticle('')
+        setLoading(false)
+    }
+
+
+    useEffect(() => {
+        reqAllTrailsByTopic()
+    }, [topicsUser])
 
     useEffect(() => {
         reqTopicsByUser()
@@ -73,12 +216,6 @@ export default function Creator() {
         reqContentByTrail()
     }, [selectOptions.trail])
 
-
-    function setText() {
-        console.log('o texto', value)
-    }
-
-
     return (
         <Container>
             <Title title={`Olá, ${user ? user?.name : ''}`} />
@@ -86,6 +223,15 @@ export default function Creator() {
             <div className="createDiv">
 
                 <Row>
+                    <Col sm={12} md={6}>
+                        <Form.Label>Escolha o tópico que será vinculado com sua nova trilha</Form.Label>
+                        <Form.Select className="mb-3" name='topic' value={selectItemsOpt.topic} onChange={handleOptionItemsChange}>
+                            <option>Tópicos</option>
+                            {topicsUser.map((topic: Topic) => (
+                                <option value={topic.id}>{topic.name}</option>
+                            ))}
+                        </Form.Select>
+                    </Col>
 
                     <Col sm={12} md={6}>
                         <Form.Group className="mb-3" controlId="trilha">
@@ -93,10 +239,39 @@ export default function Creator() {
                             <Form.Control
                                 type="text"
                                 placeholder="Trilha Exemplo"
-                                name="trilha"
+                                name="trailName"
+                                value={formItems.trailName}
+                                onChange={handleItems}
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="trilha">
+                            <Form.Label>Descrição trilha</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Trilha Exemplo"
+                                name="trailDescription"
+                                value={formItems.trailDescription}
+                                onChange={handleItems}
                             />
                         </Form.Group>
                     </Col>
+
+                </Row>
+
+                <Row className='mt-5'>
+
+                    <Col sm={12} md={6}>
+                        <Form.Label>Escolha a trilha que será vinculada com seu novo tópico</Form.Label>
+
+                        <Form.Select className="mb-3" name='trail' value={selectItemsOpt.trail} onChange={handleOptionItemsChange}>
+                            <option>Trilhas</option>
+                            {allTrailsTopic.map((trail: Trail) => (
+                                <option value={trail.id}>{trail.name}</option>
+                            ))}
+                        </Form.Select>
+
+                    </Col>
+
 
                     <Col sm={12} md={6}>
 
@@ -105,7 +280,9 @@ export default function Creator() {
                             <Form.Control
                                 type="text"
                                 placeholder="Conteúdo Exemplo"
-                                name="trilha"
+                                name="content"
+                                value={formItems.content}
+                                onChange={handleItems}
                             />
                         </Form.Group>
 
@@ -116,7 +293,7 @@ export default function Creator() {
                 <Row className="d-flex justify-content-end">
 
                     <Col sm={12} md={2}>
-                        <Button type="submit" className="w-100 my-4 buttonDefault">
+                        <Button onClick={handleCreateItems} className="w-100 my-4 buttonDefault" disabled={!user?.active}>
                             {!loading ?
                                 'Salvar' :
                                 <Spinner
@@ -182,6 +359,8 @@ export default function Creator() {
                                 type="text"
                                 placeholder="Título pequeno"
                                 name="title"
+                                value={formArticle.title}
+                                onChange={handleArticleText}
                             />
                         </Form.Group>
                     </Col>
@@ -193,6 +372,8 @@ export default function Creator() {
                                 type="text"
                                 placeholder="Subtítulo Opcional - pode ser grande"
                                 name="subtitle"
+                                value={formArticle.subtitle}
+                                onChange={handleArticleText}
                             />
                         </Form.Group>
                     </Col>
@@ -202,9 +383,9 @@ export default function Creator() {
 
             <div className='textCreateDiv'>
 
-                <ReactQuill theme="snow" value={value} onChange={setValue} />
+                <ReactQuill theme="snow" value={valueArticle} onChange={setText} />
 
-                <Button onClick={setText} className="w-100 my-4 buttonDefault">
+                <Button disabled={!user?.active} onClick={sendArticle} className="w-100 my-4 buttonDefault">
                     Salvar
                 </Button>
 

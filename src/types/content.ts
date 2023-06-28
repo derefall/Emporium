@@ -8,3 +8,9 @@ export interface Content {
     user: User;
     trail: Trail;
 }
+
+export interface CreateContent {
+    name: string;
+    trail: string;
+    user: string;
+}

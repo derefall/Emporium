@@ -14,3 +14,11 @@ export interface ArticleContent {
     title: string;
     articles: Article[];
 }
+
+export interface CreateArticle {
+    title: string;
+    subtitle: string;
+    material: string;
+    content: string;
+    user: string;
+}

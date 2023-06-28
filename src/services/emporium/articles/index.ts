@@ -1,3 +1,4 @@
+import { CreateArticle } from '../../../types/article';
 import { api } from '../../index'
 
 async function getArticlesByUser(token?: string, userId?: string) {
@@ -23,4 +24,17 @@ async function getArticlesByContent(id: string) {
     }
 }
 
-export { getArticlesByUser, getArticlesByContent };
+async function createArticle(article: CreateArticle, token?: string) {
+    try {
+        const articleCreated = await api.post('/article', article, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return articleCreated.data;
+    } catch (error: any) {
+        return error
+    }
+}
+
+export { getArticlesByUser, getArticlesByContent, createArticle };
