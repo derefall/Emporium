@@ -15,6 +15,26 @@ import { Content } from '../../types/content';
 import AlertToast from "../../components/alertToast";
 import { createArticle } from '../../services/emporium/articles';
 
+const modules = {
+    toolbar: [
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+        [{ 'direction': 'rtl', 'align': [] }],
+        [{ 'color': [] }, { 'background': [] }],
+        ['link', 'clean']
+    ],
+}
+
+const formats = [
+    'header',
+    'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'list', 'bullet', 'indent',
+    'direction', 'align',
+    'color', 'background',
+    'link', 'clean'
+]
+
 export default function Creator() {
 
     const { token, user } = React.useContext(UserContext)
@@ -31,7 +51,6 @@ export default function Creator() {
     const [formItems, setFormItems] = useState(defaulFormItems)
 
     const [formArticle, setFormArticle] = useState(defaulFormArticle)
-
 
     const handleOptionChange = (event: any) => {
         setSelectOptions({
@@ -179,7 +198,7 @@ export default function Creator() {
                 user.id
             )
 
-            console.log('oq vai', articleBody)
+            console.log('oq vai enviar', articleBody)
 
             const articleReturn = await createArticle(
                 articleBody,
@@ -225,7 +244,7 @@ export default function Creator() {
                 <Row>
                     <Col sm={12} md={6}>
                         <Form.Label>Escolha o tópico que será vinculado com sua nova trilha</Form.Label>
-                        <Form.Select className="mb-3" name='topic' value={selectItemsOpt.topic} onChange={handleOptionItemsChange}>
+                        <Form.Select disabled={!user?.active} className="mb-3" name='topic' value={selectItemsOpt.topic} onChange={handleOptionItemsChange}>
                             <option>Tópicos</option>
                             {topicsUser.map((topic: Topic) => (
                                 <option value={topic.id}>{topic.name}</option>
@@ -237,6 +256,7 @@ export default function Creator() {
                         <Form.Group className="mb-3" controlId="trilha">
                             <Form.Label>Criar trilha</Form.Label>
                             <Form.Control
+                                disabled={!user?.active}
                                 type="text"
                                 placeholder="Trilha Exemplo"
                                 name="trailName"
@@ -247,6 +267,7 @@ export default function Creator() {
                         <Form.Group className="mb-3" controlId="trilha">
                             <Form.Label>Descrição trilha</Form.Label>
                             <Form.Control
+                                disabled={!user?.active}
                                 type="text"
                                 placeholder="Trilha Exemplo"
                                 name="trailDescription"
@@ -263,7 +284,7 @@ export default function Creator() {
                     <Col sm={12} md={6}>
                         <Form.Label>Escolha a trilha que será vinculada com seu novo tópico</Form.Label>
 
-                        <Form.Select className="mb-3" name='trail' value={selectItemsOpt.trail} onChange={handleOptionItemsChange}>
+                        <Form.Select disabled={!user?.active} className="mb-3" name='trail' value={selectItemsOpt.trail} onChange={handleOptionItemsChange}>
                             <option>Trilhas</option>
                             {allTrailsTopic.map((trail: Trail) => (
                                 <option value={trail.id}>{trail.name}</option>
@@ -383,7 +404,13 @@ export default function Creator() {
 
             <div className='textCreateDiv'>
 
-                <ReactQuill theme="snow" value={valueArticle} onChange={setText} />
+                <ReactQuill
+                    theme="snow"
+                    value={valueArticle}
+                    onChange={setText}
+                    modules={modules}
+                    formats={formats}
+                />
 
                 <Button disabled={!user?.active} onClick={sendArticle} className="w-100 my-4 buttonDefault">
                     Salvar

@@ -8,12 +8,16 @@ import { UserContext } from '../../../contexts/userContext';
 import { Article } from '../../../types/article';
 import './styles.scss'
 import { FormatDateBr } from '../../../utils/utilFunctions';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEdit } from '@fortawesome/free-solid-svg-icons'
 
 export default function CreatorArticles() {
 
     const navigate = useNavigate();
     const { token, user } = React.useContext(UserContext)
     const [userArticles, setUserArticles] = useState([]);
+
+    const edit = <FontAwesomeIcon icon={faEdit} size="1x" color="#9582ab" />
 
     async function reqArticlesByUser() {
         const result: ReturnApi = await getArticlesByUser(token, user?.id)
@@ -36,13 +40,17 @@ export default function CreatorArticles() {
             {
 
                 userArticles ? userArticles.map((article: Article) => (
-                    <div className='articleItem'>
+                    <div className='articleItem my-3'>
                         <Row>
-                            <Col md='10' sm='12'>
+                            <Col md='9' sm='12'>
                                 {article.title}
                             </Col>
-                            <Col md='2' sm='12'>
+                            <Col md='3' sm='12' className='d-flex justify-content-end'>
                                 {FormatDateBr(article.updatedAt)}
+
+                                <div className='ms-3'>
+                                    {edit}
+                                </div>
                             </Col>
                         </Row>
                     </div>

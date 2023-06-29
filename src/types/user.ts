@@ -20,6 +20,7 @@ export interface User {
     public_name?: string;
     email: string;
     instagram?: string;
+    description?: string;
     facebook?: string;
     telegram: string;
     active: boolean;

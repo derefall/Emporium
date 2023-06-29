@@ -24,6 +24,15 @@ async function getArticlesByContent(id: string) {
     }
 }
 
+async function getArticlesById(id: string) {
+    try {
+        const article = await api.get(`/article/${id}`);
+        return article.data;
+    } catch (error: any) {
+        return error
+    }
+}
+
 async function createArticle(article: CreateArticle, token?: string) {
     try {
         const articleCreated = await api.post('/article', article, {
@@ -37,4 +46,4 @@ async function createArticle(article: CreateArticle, token?: string) {
     }
 }
 
-export { getArticlesByUser, getArticlesByContent, createArticle };
+export { getArticlesByUser, getArticlesByContent, createArticle, getArticlesById };

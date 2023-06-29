@@ -35,33 +35,37 @@ export default function Topics() {
 
                 <Title title='Sobre o que você quer ler?' />
 
-                {topics.map((topic: Topic) => (
-                    !topic.scientific ?
-                        <Col md="5" sm="12" className="roundItem" onClick={() => { navigate(`/trilhas/` + topic.id) }}>
-                            <Row>
-                                <Col md="2">
-                                    {religion}
-                                </Col>
-                                <Col ms="10" className="topicItem">
-                                    <p>{topic.name}</p>
-                                </Col>
-                            </Row>
-                        </Col> : ''
-                ))}
+                <Row>
+                    <Col md="5" sm="12">
+                        {topics.map((topic: Topic) => (
+                            !topic.scientific ?
 
-                {topics.map((topic: Topic) => (
-                    topic.scientific ?
-                        <Col md="5" sm="12" className="roundItem" onClick={() => { navigate(`/trilhas/` + topic.id) }}>
-                            <Row>
-                                <Col md="2">
-                                    {science}
-                                </Col>
-                                <Col ms="10" className="topicItem">
-                                    <p>{topic.name}</p>
-                                </Col>
-                            </Row>
-                        </Col> : ''
-                ))}
+                                <Row className="roundItem" onClick={() => { navigate(`/trilhas/` + topic.id) }}>
+                                    <Col md="2" className="d-flex justify-content-center">
+                                        {religion}
+                                    </Col>
+                                    <Col ms="10" className="topicItem">
+                                        <p>{topic.name}</p>
+                                    </Col>
+                                </Row> : ''
+                        ))}
+                    </Col>
+                    <Col md="5" sm="12">
+                        {topics.map((topic: Topic) => (
+                            topic.scientific ?
+                                <Row className="roundItem" onClick={() => { navigate(`/trilhas/` + topic.id) }}>
+                                    <Col md="2" className="d-flex justify-content-center">
+                                        {science}
+                                    </Col>
+                                    <Col ms="10" className="topicItem">
+                                        <p>{topic.name}</p>
+                                    </Col>
+                                </Row> : ''
+                        ))}
+                    </Col>
+
+                </Row>
+
 
             </Container>
 

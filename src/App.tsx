@@ -13,7 +13,7 @@ import Topics from './pages/topics';
 import CreatorArticles from './pages/creator/articles';
 import Trails from './pages/trails';
 import Contents from './pages/contents';
-import { Article } from './pages/article';
+import { ArticlePage } from './pages/article';
 
 function App() {
   return (
@@ -39,7 +39,7 @@ function App() {
           <Route path="/topicos" element={<Topics />} />
           <Route path="/trilhas/:id" element={<Trails />} />
           <Route path="/conteudos/:id" element={<Contents />} />
-          <Route path="/artigo/:id" element={<Article />} />
+          <Route path="/artigo/:id" element={<ArticlePage />} />
           <Route path="/artigos-criador" element={<CreatorArticles />} />
           <Route path="/criador" element={<Creator />} />
           <Route path="/registro" element={<Register />} />
