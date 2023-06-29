@@ -8,15 +8,12 @@ import { UserContext } from '../../contexts/userContext';
 import { Article } from "../../types/article";
 import Parser from 'html-react-parser';
 import './styles.scss'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHeart } from '@fortawesome/free-solid-svg-icons'
 const instagram = require("../../assets/images/instagram.png");
 
 export function ArticlePage() {
     const { id } = useParams();
     const { token, user } = React.useContext(UserContext)
     const [article, setArticle] = useState<Article>();
-    const autor = <FontAwesomeIcon icon={faHeart} size="1x" color="red" />
 
     async function reqArticle() {
         if (id) {
@@ -36,7 +33,7 @@ export function ArticlePage() {
 
 
     return (
-        <Container>
+        <Container className="mh-100vh">
 
             <Title title={article?.title} subtitle={article?.subtitle} isCentered={true} />
 

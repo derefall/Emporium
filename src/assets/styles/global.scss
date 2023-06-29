@@ -4,12 +4,16 @@
 
 
 html {
-    height: 100vh;
+    height: 100%;
 }
 
 body,
 #root {
     height: 100%;
+}
+
+.mh-100vh {
+    min-height: 60vh;
 }
 
 .buttonDefault {

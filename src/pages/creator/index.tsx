@@ -236,7 +236,7 @@ export default function Creator() {
     }, [selectOptions.trail])
 
     return (
-        <Container>
+        <Container className='mh-100vh'>
             <Title title={`Olá, ${user ? user?.name : ''}`} />
 
             <div className="createDiv">

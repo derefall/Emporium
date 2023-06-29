@@ -7,13 +7,13 @@ import { getTopics } from "../../services/emporium/topics";
 import { useNavigate } from 'react-router-dom';
 import { Topic } from "../../types/topic";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFlask, faHandsPraying } from '@fortawesome/free-solid-svg-icons'
+import { faFlask, faPeopleGroup } from '@fortawesome/free-solid-svg-icons'
 
 export default function Topics() {
     const navigate = useNavigate();
     const [topics, setTopics] = useState([]);
 
-    const religion = <FontAwesomeIcon icon={faHandsPraying} size="lg" color="#9582ab" />
+    const religion = <FontAwesomeIcon icon={faPeopleGroup} size="lg" color="#9582ab" />
     const science = <FontAwesomeIcon icon={faFlask} size="lg" color="#9582ab" />
 
     async function reqTopics() {

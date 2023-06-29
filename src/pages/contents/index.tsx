@@ -62,7 +62,7 @@ export default function Contents() {
 
     return (
 
-        <Container>
+        <Container className="mh-100vh">
 
             {
                 contents.length > 0 ? <Title title={`${contents ? contents[0].trail.name : ''}`} /> :

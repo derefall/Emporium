@@ -14,6 +14,7 @@ import CreatorArticles from './pages/creator/articles';
 import Trails from './pages/trails';
 import Contents from './pages/contents';
 import { ArticlePage } from './pages/article';
+import Footer from './components/footer';
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
 
         </Routes>
 
+        <Footer />
       </BrowserRouter>
     </UserProvider>
   );

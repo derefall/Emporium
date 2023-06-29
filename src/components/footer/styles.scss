@@ -1,0 +1,62 @@
+@import '../../assets/styles/abstract/variaveis';
+
+.imgSocial {
+    height: 30px;
+    margin-right: 5px;
+}
+
+.footer {
+    width: 100%;
+}
+
+.bg-footer {
+    background-color: $first-color;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    margin-top: 50px;
+
+    p {
+        color: $font-color-light;
+        font-weight: lighter;
+    }
+
+    input,
+    textarea {
+        background-color: rgba(0, 0, 0, 0.42) !important;
+        color: $font-color-light !important;
+        border-color: #000000 !important;
+        stroke: #000000 !important;
+        font-size: 14px !important;
+        padding: 10px 18px !important;
+
+        &::placeholder {
+            color: $font-color-light !important;
+            font-weight: 100;
+        }
+
+        &:focus,
+        &:focus-visible {
+            border-color: $third-color !important;
+            stroke: $third-color !important;
+            box-shadow: none !important;
+        }
+    }
+}
+
+.bg-footer-dark {
+    background-color: #000000;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    p {
+        margin-bottom: 0;
+        display: flex;
+    }
+
+    .redColor {
+        color: red;
+    }
+}
