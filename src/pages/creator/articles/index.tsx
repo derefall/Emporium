@@ -29,7 +29,7 @@ export default function CreatorArticles() {
 
     useEffect(() => {
         reqArticlesByUser()
-    }, [token])
+    }, [token, user])
 
     return (
 
