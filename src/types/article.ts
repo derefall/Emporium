@@ -22,3 +22,9 @@ export interface CreateArticle {
     content: string;
     user: string;
 }
+
+export interface UpdateArticle {
+    title: string;
+    subtitle: string;
+    material: string;
+}

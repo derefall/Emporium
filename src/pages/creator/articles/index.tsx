@@ -3,13 +3,14 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
 import Title from "../../../components/title";
 import { ReturnApi } from "../../../types/return";
-import { getArticlesByUser } from "../../../services/emporium/articles";
+import { deleteArticle, getArticlesByUser } from "../../../services/emporium/articles";
 import { UserContext } from '../../../contexts/userContext';
 import { Article } from '../../../types/article';
 import './styles.scss'
 import { FormatDateBr } from '../../../utils/utilFunctions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
+import AlertToast from '../../../components/alertToast';
 
 export default function CreatorArticles() {
 
@@ -18,12 +19,28 @@ export default function CreatorArticles() {
     const [userArticles, setUserArticles] = useState([]);
 
     const edit = <FontAwesomeIcon icon={faEdit} size="1x" color="#9582ab" />
+    const remove = <FontAwesomeIcon icon={faTrash} size="1x" color="#9582ab" />
 
     async function reqArticlesByUser() {
         const result: ReturnApi = await getArticlesByUser(token, user?.id)
 
         if (result.status === 200) {
             setUserArticles(result.records)
+        }
+    }
+
+    async function removeArticle(id: string) {
+        const articleReturn = await deleteArticle(
+            id,
+            token
+        )
+
+        if (articleReturn.status === 204) {
+            AlertToast(
+                'Artigo excluído com sucesso!',
+                'success'
+            )
+            reqArticlesByUser()
         }
     }
 
@@ -48,8 +65,11 @@ export default function CreatorArticles() {
                             <Col md='3' sm='12' className='d-flex justify-content-end'>
                                 {FormatDateBr(article.updatedAt)}
 
-                                <div className='ms-3'>
+                                <div className='ms-3 cursor' onClick={() => { navigate('/editar-artigo/' + article.id) }}>
                                     {edit}
+                                </div>
+                                <div className='ms-3 cursor' onClick={() => { removeArticle(article.id) }}>
+                                    {remove}
                                 </div>
                             </Col>
                         </Row>

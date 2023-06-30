@@ -1,4 +1,4 @@
-import { CreateArticle } from '../../../types/article';
+import { CreateArticle, UpdateArticle } from '../../../types/article';
 import { api } from '../../index'
 
 async function getArticlesByUser(token?: string, userId?: string) {
@@ -46,4 +46,30 @@ async function createArticle(article: CreateArticle, token?: string) {
     }
 }
 
-export { getArticlesByUser, getArticlesByContent, createArticle, getArticlesById };
+async function updateArticle(article: UpdateArticle, token?: string, id?: string) {
+    try {
+        const articleUpdated = await api.put(`/article/${id}`, article, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return articleUpdated.data;
+    } catch (error: any) {
+        return error
+    }
+}
+
+async function deleteArticle(id?: string, token?: string) {
+    try {
+        const articleRemove = await api.delete(`/article/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return articleRemove;
+    } catch (error: any) {
+        return error
+    }
+}
+
+export { getArticlesByUser, getArticlesByContent, createArticle, getArticlesById, updateArticle, deleteArticle };

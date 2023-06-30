@@ -7,13 +7,14 @@ import './styles.scss'
 import { ReturnApi } from '../../types/return';
 import { getTopics } from '../../services/emporium/topics';
 import { Topic } from '../../types/topic';
-import { defaultSelect, defaulFormItems, mountBodyTrailCreate, mountBodyContentCreate, mountBodyArticleCreate, defaulFormArticle } from './constants';
+import { defaultSelect, defaulFormItems, mountBodyTrailCreate, mountBodyContentCreate, mountBodyArticleCreate, defaulFormArticle, mountBodyArticleUpdate } from './constants';
 import { createTrail, getTrailsByTopicId } from '../../services/emporium/trails';
 import { Trail } from '../../types/trail';
 import { createContent, getContentByTrailId } from '../../services/emporium/content';
 import { Content } from '../../types/content';
 import AlertToast from "../../components/alertToast";
-import { createArticle } from '../../services/emporium/articles';
+import { createArticle, getArticlesById, updateArticle } from '../../services/emporium/articles';
+import { useParams } from 'react-router-dom';
 
 const modules = {
     toolbar: [
@@ -36,6 +37,7 @@ const formats = [
 ]
 
 export default function Creator() {
+    const { id } = useParams();
 
     const { token, user } = React.useContext(UserContext)
     const [topicsUser, setTopicsUser] = useState<Topic[]>([]);
@@ -185,31 +187,52 @@ export default function Creator() {
         setValueArticle(value)
     }
 
-    async function sendArticle() {
+    const sendArticle = async () => {
         setLoading(true)
 
         if (user?.active) {
 
-            const articleBody = mountBodyArticleCreate(
-                formArticle.title,
-                formArticle.subtitle,
-                valueArticle,
-                selectOptions.content,
-                user.id
-            )
-
-            console.log('oq vai enviar', articleBody)
-
-            const articleReturn = await createArticle(
-                articleBody,
-                token
-            )
-
-            if (articleReturn.status === 201) {
-                AlertToast(
-                    'Artigo criado com sucesso!',
-                    'success'
+            if (!id) {
+                const articleBody = mountBodyArticleCreate(
+                    formArticle.title,
+                    formArticle.subtitle,
+                    valueArticle,
+                    selectOptions.content,
+                    user.id
                 )
+
+                const articleReturn = await createArticle(
+                    articleBody,
+                    token
+                )
+
+                if (articleReturn.status === 201) {
+                    AlertToast(
+                        'Artigo criado com sucesso!',
+                        'success'
+                    )
+                }
+            } else {
+                console.log('entrou no atualizar')
+                const articleBody = mountBodyArticleUpdate(
+                    formArticle.title,
+                    formArticle.subtitle,
+                    valueArticle,
+                )
+
+                const articleReturn = await updateArticle(
+                    articleBody,
+                    token,
+                    id
+                )
+                console.log('aaa', articleReturn)
+
+                if (articleReturn.status === 200) {
+                    AlertToast(
+                        'Artigo atualizado com sucesso!',
+                        'success'
+                    )
+                }
             }
 
         }
@@ -218,6 +241,26 @@ export default function Creator() {
         setLoading(false)
     }
 
+    async function getArticleById() {
+        if (id) {
+            const result: ReturnApi = await getArticlesById(
+                id
+            )
+
+            if (result.status === 200) {
+                setFormArticle({
+                    title: result.records.title,
+                    subtitle: result.records.subtitle
+                })
+                setValueArticle(result.records.material)
+            }
+        }
+    }
+
+    useEffect(() => {
+        console.log('id', id)
+        getArticleById()
+    }, [])
 
     useEffect(() => {
         reqAllTrailsByTopic()
@@ -237,139 +280,149 @@ export default function Creator() {
 
     return (
         <Container className='mh-100vh'>
-            <Title title={`Olá, ${user ? user?.name : ''}`} />
+            {!id ? <Title title={`Olá, ${user ? user?.name : ''}`} /> : ''}
 
-            <div className="createDiv">
+            {
+                !id ?
+                    <>
+                        <div className="createDiv">
 
-                <Row>
-                    <Col sm={12} md={6}>
-                        <Form.Label>Escolha o tópico que será vinculado com sua nova trilha</Form.Label>
-                        <Form.Select disabled={!user?.active} className="mb-3" name='topic' value={selectItemsOpt.topic} onChange={handleOptionItemsChange}>
-                            <option>Tópicos</option>
-                            {topicsUser.map((topic: Topic) => (
-                                <option value={topic.id}>{topic.name}</option>
-                            ))}
-                        </Form.Select>
-                    </Col>
+                            <Row>
+                                <Col sm={12} md={6}>
+                                    <Form.Label>Escolha o tópico que será vinculado com sua nova trilha</Form.Label>
+                                    <Form.Select disabled={!user?.active} className="mb-3" name='topic' value={selectItemsOpt.topic} onChange={handleOptionItemsChange}>
+                                        <option>Tópicos</option>
+                                        {topicsUser.map((topic: Topic) => (
+                                            <option value={topic.id}>{topic.name}</option>
+                                        ))}
+                                    </Form.Select>
+                                </Col>
 
-                    <Col sm={12} md={6}>
-                        <Form.Group className="mb-3" controlId="trilha">
-                            <Form.Label>Criar trilha</Form.Label>
-                            <Form.Control
-                                disabled={!user?.active}
-                                type="text"
-                                placeholder="Trilha Exemplo"
-                                name="trailName"
-                                value={formItems.trailName}
-                                onChange={handleItems}
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3" controlId="trilha">
-                            <Form.Label>Descrição trilha</Form.Label>
-                            <Form.Control
-                                disabled={!user?.active}
-                                type="text"
-                                placeholder="Trilha Exemplo"
-                                name="trailDescription"
-                                value={formItems.trailDescription}
-                                onChange={handleItems}
-                            />
-                        </Form.Group>
-                    </Col>
+                                <Col sm={12} md={6}>
+                                    <Form.Group className="mb-3" controlId="trilha">
+                                        <Form.Label>Criar trilha</Form.Label>
+                                        <Form.Control
+                                            disabled={!user?.active}
+                                            type="text"
+                                            placeholder="Trilha Exemplo"
+                                            name="trailName"
+                                            value={formItems.trailName}
+                                            onChange={handleItems}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group className="mb-3" controlId="trilha">
+                                        <Form.Label>Descrição trilha</Form.Label>
+                                        <Form.Control
+                                            disabled={!user?.active}
+                                            type="text"
+                                            placeholder="Trilha Exemplo"
+                                            name="trailDescription"
+                                            value={formItems.trailDescription}
+                                            onChange={handleItems}
+                                        />
+                                    </Form.Group>
+                                </Col>
 
-                </Row>
+                            </Row>
 
-                <Row className='mt-5'>
+                            <Row className='mt-5'>
 
-                    <Col sm={12} md={6}>
-                        <Form.Label>Escolha a trilha que será vinculada com seu novo tópico</Form.Label>
+                                <Col sm={12} md={6}>
+                                    <Form.Label>Escolha a trilha que será vinculada com seu novo tópico</Form.Label>
 
-                        <Form.Select disabled={!user?.active} className="mb-3" name='trail' value={selectItemsOpt.trail} onChange={handleOptionItemsChange}>
-                            <option>Trilhas</option>
-                            {allTrailsTopic.map((trail: Trail) => (
-                                <option value={trail.id}>{trail.name}</option>
-                            ))}
-                        </Form.Select>
+                                    <Form.Select disabled={!user?.active} className="mb-3" name='trail' value={selectItemsOpt.trail} onChange={handleOptionItemsChange}>
+                                        <option>Trilhas</option>
+                                        {allTrailsTopic.map((trail: Trail) => (
+                                            <option value={trail.id}>{trail.name}</option>
+                                        ))}
+                                    </Form.Select>
 
-                    </Col>
+                                </Col>
 
 
-                    <Col sm={12} md={6}>
+                                <Col sm={12} md={6}>
 
-                        <Form.Group className="mb-3" controlId="trilha">
-                            <Form.Label>Criar conteúdo</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Conteúdo Exemplo"
-                                name="content"
-                                value={formItems.content}
-                                onChange={handleItems}
-                            />
-                        </Form.Group>
+                                    <Form.Group className="mb-3" controlId="trilha">
+                                        <Form.Label>Criar conteúdo</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            placeholder="Conteúdo Exemplo"
+                                            name="content"
+                                            value={formItems.content}
+                                            onChange={handleItems}
+                                        />
+                                    </Form.Group>
 
-                    </Col>
+                                </Col>
 
-                </Row>
+                            </Row>
 
-                <Row className="d-flex justify-content-end">
+                            <Row className="d-flex justify-content-end">
 
-                    <Col sm={12} md={2}>
-                        <Button onClick={handleCreateItems} className="w-100 my-4 buttonDefault" disabled={!user?.active}>
-                            {!loading ?
-                                'Salvar' :
-                                <Spinner
-                                    as="span"
-                                    animation="border"
-                                    size="sm"
-                                    role="status"
-                                    aria-hidden="true"
-                                />
-                            }
-                        </Button>
-                    </Col>
+                                <Col sm={12} md={2}>
+                                    <Button onClick={handleCreateItems} className="w-100 my-4 buttonDefault" disabled={!user?.active}>
+                                        {!loading ?
+                                            'Salvar' :
+                                            <Spinner
+                                                as="span"
+                                                animation="border"
+                                                size="sm"
+                                                role="status"
+                                                aria-hidden="true"
+                                            />
+                                        }
+                                    </Button>
+                                </Col>
 
-                </Row>
+                            </Row>
 
-            </div>
+                        </div>
+                    </> : ''
+            }
 
-            <div className="mt-5"><Title title={'Novo Artigo'} /></div>
+            <div className="mt-5"><Title title={!id ? 'Novo Artigo' : 'Editar Artigo'} /></div>
 
             <div className="selectDiv">
 
-                <Row className="d-flex justify-content-center">
+                {
+                    !id ?
+                        <>
+                            <Row className="d-flex justify-content-center">
 
-                    <Col sm={12} md={3}>
-                        <Form.Select className="mb-3" name='topic' value={selectOptions.topic} onChange={handleOptionChange}>
-                            <option>Tópicos</option>
-                            {topicsUser.map((topic: Topic) => (
-                                <option value={topic.id}>{topic.name}</option>
-                            ))}
-                        </Form.Select>
-                    </Col>
+                                <Col sm={12} md={3}>
+                                    <Form.Select className="mb-3" name='topic' value={selectOptions.topic} onChange={handleOptionChange}>
+                                        <option>Tópicos</option>
+                                        {topicsUser.map((topic: Topic) => (
+                                            <option value={topic.id}>{topic.name}</option>
+                                        ))}
+                                    </Form.Select>
+                                </Col>
 
-                    <Col sm={12} md={3}>
+                                <Col sm={12} md={3}>
 
-                        <Form.Select className="mb-3" name='trail' value={selectOptions.trail} onChange={handleOptionChange}>
-                            <option>Trilhas</option>
-                            {trailsTopic.map((trail: Trail) => (
-                                <option value={trail.id}>{trail.name}</option>
-                            ))}
-                        </Form.Select>
+                                    <Form.Select className="mb-3" name='trail' value={selectOptions.trail} onChange={handleOptionChange}>
+                                        <option>Trilhas</option>
+                                        {trailsTopic.map((trail: Trail) => (
+                                            <option value={trail.id}>{trail.name}</option>
+                                        ))}
+                                    </Form.Select>
 
-                    </Col>
+                                </Col>
 
-                    <Col sm={12} md={3}>
+                                <Col sm={12} md={3}>
 
-                        <Form.Select className="mb-3" name='content' value={selectOptions.content} onChange={handleOptionChange}>
-                            <option>Conteúdos</option>
-                            {contentTrail.map((content: Content) => (
-                                <option value={content.id}>{content.name}</option>
-                            ))}
-                        </Form.Select>
+                                    <Form.Select className="mb-3" name='content' value={selectOptions.content} onChange={handleOptionChange}>
+                                        <option>Conteúdos</option>
+                                        {contentTrail.map((content: Content) => (
+                                            <option value={content.id}>{content.name}</option>
+                                        ))}
+                                    </Form.Select>
 
-                    </Col>
+                                </Col>
 
-                </Row>
+                            </Row>
+                        </> : ''
+                }
 
                 <Row className="d-flex justify-content-center mt-5">
 

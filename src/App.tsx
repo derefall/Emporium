@@ -44,6 +44,7 @@ function App() {
           <Route path="/artigo/:id" element={<ArticlePage />} />
           <Route path="/artigos-criador" element={<CreatorArticles />} />
           <Route path="/criador" element={<Creator />} />
+          <Route path="/editar-artigo/:id" element={<Creator />} />
           <Route path="/registro" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/usuario" element={<User />} />

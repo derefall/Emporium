@@ -62,3 +62,17 @@ export const mountBodyArticleCreate = (
     }
 
 }
+
+export const mountBodyArticleUpdate = (
+    title: string,
+    subtitle: string,
+    material: string,
+) => {
+
+    return {
+        title: title,
+        subtitle: subtitle,
+        material: material,
+    }
+
+}
