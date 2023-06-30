@@ -281,6 +281,12 @@ export default function Creator() {
     return (
         <Container className='mh-100vh'>
             {!id ? <Title title={`Olá, ${user ? user?.name : ''}`} /> : ''}
+            {!user?.active ? <>
+                <div className='mb-5 info-inactive'>
+                    <p>Seu usuário está <strong>desativado</strong>. Aguarde até que nossa equipe entre em contato com você e ative seu usuário!</p>
+                    <p>Caso já tenham passado 7 dias, nos envie uma mensagem através do formulário no rodapé!</p>
+                </div>
+            </> : ''}
 
             {
                 !id ?
@@ -345,6 +351,7 @@ export default function Creator() {
                                     <Form.Group className="mb-3" controlId="trilha">
                                         <Form.Label>Criar conteúdo</Form.Label>
                                         <Form.Control
+                                            disabled={!user?.active}
                                             type="text"
                                             placeholder="Conteúdo Exemplo"
                                             name="content"
@@ -390,7 +397,7 @@ export default function Creator() {
                             <Row className="d-flex justify-content-center">
 
                                 <Col sm={12} md={3}>
-                                    <Form.Select className="mb-3" name='topic' value={selectOptions.topic} onChange={handleOptionChange}>
+                                    <Form.Select disabled={!user?.active} className="mb-3" name='topic' value={selectOptions.topic} onChange={handleOptionChange}>
                                         <option>Tópicos</option>
                                         {topicsUser.map((topic: Topic) => (
                                             <option value={topic.id}>{topic.name}</option>
@@ -400,7 +407,7 @@ export default function Creator() {
 
                                 <Col sm={12} md={3}>
 
-                                    <Form.Select className="mb-3" name='trail' value={selectOptions.trail} onChange={handleOptionChange}>
+                                    <Form.Select disabled={!user?.active} className="mb-3" name='trail' value={selectOptions.trail} onChange={handleOptionChange}>
                                         <option>Trilhas</option>
                                         {trailsTopic.map((trail: Trail) => (
                                             <option value={trail.id}>{trail.name}</option>
@@ -411,7 +418,7 @@ export default function Creator() {
 
                                 <Col sm={12} md={3}>
 
-                                    <Form.Select className="mb-3" name='content' value={selectOptions.content} onChange={handleOptionChange}>
+                                    <Form.Select disabled={!user?.active} className="mb-3" name='content' value={selectOptions.content} onChange={handleOptionChange}>
                                         <option>Conteúdos</option>
                                         {contentTrail.map((content: Content) => (
                                             <option value={content.id}>{content.name}</option>
@@ -430,6 +437,7 @@ export default function Creator() {
                         <Form.Group className="mb-3" controlId="trilha">
                             <Form.Label>Título</Form.Label>
                             <Form.Control
+                                disabled={!user?.active}
                                 type="text"
                                 placeholder="Título pequeno"
                                 name="title"
@@ -443,6 +451,7 @@ export default function Creator() {
                         <Form.Group className="mb-3" controlId="trilha">
                             <Form.Label>Subtítulo</Form.Label>
                             <Form.Control
+                                disabled={!user?.active}
                                 type="text"
                                 placeholder="Subtítulo Opcional - pode ser grande"
                                 name="subtitle"

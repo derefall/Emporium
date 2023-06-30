@@ -106,6 +106,7 @@ export default function Footer() {
                                             className="mb-3"
                                             type="text"
                                             placeholder="nome"
+                                            required
                                             name="name"
                                             value={form.name}
                                             onChange={handleForm}
@@ -113,6 +114,7 @@ export default function Footer() {
                                         />
                                         <Form.Control
                                             type="text"
+                                            required
                                             placeholder="email"
                                             name="email"
                                             value={form.email}

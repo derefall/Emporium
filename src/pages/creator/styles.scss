@@ -1,5 +1,17 @@
 @import '../../assets/styles/abstract/variaveis';
 
+
+.info-inactive {
+    border-left: 1px solid black;
+    padding-left: 20px;
+    font-weight: lighter;
+    font-family: $font-page;
+
+    strong {
+        color: rgb(255, 0, 0);
+    }
+}
+
 .createDiv {
 
     background-color: $gray-auxiliar;
