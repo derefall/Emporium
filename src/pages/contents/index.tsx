@@ -89,7 +89,7 @@ export default function Contents() {
                                         </ListGroup>
                                     </div>
 
-                                )) : 'Loading'
+                                )) : ''
                             }
 
 

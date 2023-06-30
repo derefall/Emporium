@@ -1,4 +1,4 @@
-import { CreateUser, LoginUser } from '../../../types/user';
+import { CreateUser, LoginUser, UpdateUser } from '../../../types/user';
 import { getTokenCookies } from '../../../utils/tokenCookies';
 import { api, apiAuth } from '../../index'
 
@@ -39,4 +39,17 @@ async function loginUser(user: LoginUser) {
     }
 }
 
-export { createUser, loginUser, getUserById };
+async function updateUser(user: UpdateUser, token?: string, id?: string) {
+    try {
+        const userCreated = await api.put(`/user/${id}`, user, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return userCreated.data;
+    } catch (error: any) {
+        return error
+    }
+}
+
+export { createUser, loginUser, getUserById, updateUser };

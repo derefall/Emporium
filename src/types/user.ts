@@ -27,3 +27,10 @@ export interface User {
     topics: [any];
 }
 
+export interface UpdateUser {
+    public_name?: string;
+    telegram?: string;
+    instagram?: string;
+    facebook?: string;
+}
+
