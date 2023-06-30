@@ -15,6 +15,7 @@ import Trails from './pages/trails';
 import Contents from './pages/contents';
 import { ArticlePage } from './pages/article';
 import Footer from './components/footer';
+import User from './pages/creator/user';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
           <Route path="/criador" element={<Creator />} />
           <Route path="/registro" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/usuario" element={<User />} />
 
         </Routes>
 

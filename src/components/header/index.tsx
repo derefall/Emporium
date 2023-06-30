@@ -4,6 +4,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import './styles.scss';
 import { UserContext } from '../../contexts/userContext';
 import { deleteTokenCookies } from '../../utils/tokenCookies';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons'
 
 export default function Header() {
 
@@ -12,6 +14,7 @@ export default function Header() {
 
     const { token, user, setToken, setUser } = React.useContext(UserContext)
     const [logged, setLogged] = useState(false);
+    const userFace = <FontAwesomeIcon icon={faUser} size="1x" color="#c0bed3" />
 
     useEffect(() => {
         if (token && user) {
@@ -43,6 +46,7 @@ export default function Header() {
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="">
                             <Form.Control type="text" placeholder="procure aqui..." />
+                            {logged ? <div className='d-flex align-items-center ms-5 cursor' onClick={() => { navigate('/usuario') }}>{userFace}</div> : ''}
                             <Button className="mx-2 buttonDefault" onClick={() => { logged ? navigate('/artigos-criador') : navigate('/login') }}>criador</Button>
                             {logged ? <Button className=" buttonDefault" onClick={logOut}>sair</Button> : ''}
                         </Nav>
