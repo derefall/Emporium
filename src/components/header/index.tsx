@@ -45,7 +45,7 @@ export default function Header() {
                 <Row>
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="">
-                            <Form.Control type="text" placeholder="procure aqui..." />
+                            {/* <Form.Control type="text" placeholder="procure aqui..." /> */}
                             {logged ? <div className='d-flex align-items-center ms-5 cursor' onClick={() => { navigate('/usuario') }}>{userFace}</div> : ''}
                             <Button className="mx-2 buttonDefault" onClick={() => { logged ? navigate('/artigos-criador') : navigate('/login') }}>criador</Button>
                             {logged ? <Button className=" buttonDefault" onClick={logOut}>sair</Button> : ''}

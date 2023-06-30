@@ -49,7 +49,7 @@ export function ArticlePage() {
                     article && article.user ?
                         <>
 
-                            <Row className="d-flex justify-content-center">
+                            <Row className="d-flex justify-content-center author">
                                 <h3 className="mb-4">Sobre o autor</h3>
 
                                 <Col md={8} sm={12}>
