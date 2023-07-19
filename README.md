@@ -21,7 +21,7 @@ Para rodar os testes unitários é:
 1 - Elementos compartilhados:
 
 -> Header :white_check_mark:
--> Footer
+-> Footer :white_check_mark:
 -> Login (redux) :white_check_mark:
 
 2 - Criar conta
@@ -45,8 +45,8 @@ Para rodar os testes unitários é:
 
 7 - Artigo
 -> Título e subtítulo :white_check_mark:
--> Matéria
--> Área com dados do criador da matéria
+-> Matéria :white_check_mark:
+-> Área com dados do criador da matéria :white_check_mark:
 
 8 - Criador
 -> Área de criação de trilha e conteúdo :white_check_mark:
