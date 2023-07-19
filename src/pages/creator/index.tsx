@@ -475,7 +475,16 @@ export default function Creator() {
                 />
 
                 <Button disabled={!user?.active} onClick={sendArticle} className="w-100 my-4 buttonDefault">
-                    Salvar
+                    {!loading ?
+                        'Salvar' :
+                        <Spinner
+                            as="span"
+                            animation="border"
+                            size="sm"
+                            role="status"
+                            aria-hidden="true"
+                        />
+                    }
                 </Button>
 
             </div>
