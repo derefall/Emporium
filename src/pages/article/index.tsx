@@ -3,7 +3,7 @@ import Title from "../../components/title";
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import { ReturnApi } from "../../types/return";
-import { getArticlesById } from "../../services/emporium/articles";
+import { getArticlesById, getArticleMaterialByUrl } from "../../services/emporium/articles";
 import { UserContext } from '../../contexts/userContext';
 import { Article } from "../../types/article";
 import Parser from 'html-react-parser';
@@ -22,9 +22,25 @@ export function ArticlePage() {
             )
 
             if (result.status === 200) {
+
+                const s3Material = await reqMaterialBucket(
+                    result.records.material
+                )
+
+                if (s3Material) {
+                    result.records.material = s3Material
+                }
+
                 setArticle(result.records)
             }
         }
+    }
+
+    async function reqMaterialBucket(materialUrl: string) {
+        const materials3: ReturnApi = await getArticleMaterialByUrl(
+            materialUrl
+        )
+        return materials3
     }
 
     useEffect(() => {

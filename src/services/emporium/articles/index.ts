@@ -1,5 +1,5 @@
 import { CreateArticle, UpdateArticle } from '../../../types/article';
-import { api } from '../../index'
+import { api, apiBucket } from '../../index'
 
 async function getArticlesByUser(token?: string, userId?: string) {
 
@@ -28,6 +28,15 @@ async function getArticlesById(id: string) {
     try {
         const article = await api.get(`/article/${id}`);
         return article.data;
+    } catch (error: any) {
+        return error
+    }
+}
+
+async function getArticleMaterialByUrl(s3Url: string) {
+    try {
+        const response = await apiBucket.get(s3Url);
+        return response.data;
     } catch (error: any) {
         return error
     }
@@ -74,4 +83,4 @@ async function deleteArticle(id?: string, token?: string) {
     }
 }
 
-export { getArticlesByUser, getArticlesByContent, createArticle, getArticlesById, updateArticle, deleteArticle };
+export { getArticlesByUser, getArticlesByContent, createArticle, getArticlesById, updateArticle, deleteArticle, getArticleMaterialByUrl };
