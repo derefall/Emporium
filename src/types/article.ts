@@ -18,7 +18,6 @@ export interface ArticleContent {
 export interface CreateArticle {
     title: string;
     subtitle: string;
-    material: string;
     content: string;
     user: string;
 }
@@ -26,5 +25,4 @@ export interface CreateArticle {
 export interface UpdateArticle {
     title: string;
     subtitle: string;
-    material: string;
 }

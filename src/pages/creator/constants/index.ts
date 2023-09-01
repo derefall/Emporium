@@ -1,3 +1,5 @@
+import { stringClean } from "../../../utils/utilFunctions"
+
 export const defaultSelect = {
     topic: '',
     trail: '',
@@ -53,13 +55,20 @@ export const mountBodyArticleCreate = (
     userId: string
 ) => {
 
-    return {
-        title: title,
-        subtitle: subtitle,
-        material: material,
-        content: contentId,
-        user: userId
-    }
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('subtitle', subtitle);
+    formData.append('content', contentId);
+    formData.append('user', userId);
+
+    const fileName = stringClean(title)
+
+    const blob = new Blob([material], { type: 'application/json' });
+    const file = new File([blob], `${fileName}.json`, { type: 'application/json' });
+
+    formData.append('file', file);
+
+    return formData
 
 }
 

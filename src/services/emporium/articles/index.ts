@@ -33,11 +33,13 @@ async function getArticlesById(id: string) {
     }
 }
 
-async function createArticle(article: CreateArticle, token?: string) {
+async function createArticle(articleData: any, token?: string) {
+
     try {
-        const articleCreated = await api.post('/article', article, {
+        const articleCreated = await api.post('/article', articleData, {
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'
             }
         });
         return articleCreated.data;
