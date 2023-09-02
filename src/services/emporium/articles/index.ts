@@ -57,7 +57,7 @@ async function createArticle(articleData: any, token?: string) {
     }
 }
 
-async function updateArticle(article: UpdateArticle, token?: string, id?: string) {
+async function updateArticle(article: any, token?: string, id?: string) {
     try {
         const articleUpdated = await api.put(`/article/${id}`, article, {
             headers: {

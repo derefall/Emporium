@@ -78,10 +78,16 @@ export const mountBodyArticleUpdate = (
     material: string,
 ) => {
 
-    return {
-        title: title,
-        subtitle: subtitle,
-        material: material,
-    }
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('subtitle', subtitle);
 
+    const fileName = stringClean(title)
+
+    const blob = new Blob([material], { type: 'application/json' });
+    const file = new File([blob], `${fileName}.json`, { type: 'application/json' });
+
+    formData.append('file', file);
+
+    return formData
 }

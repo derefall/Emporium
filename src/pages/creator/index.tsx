@@ -13,7 +13,7 @@ import { Trail } from '../../types/trail';
 import { createContent, getContentByTrailId } from '../../services/emporium/content';
 import { Content } from '../../types/content';
 import AlertToast from "../../components/alertToast";
-import { createArticle, getArticlesById, updateArticle } from '../../services/emporium/articles';
+import { createArticle, getArticlesById, updateArticle, getArticleMaterialByUrl } from '../../services/emporium/articles';
 import { useParams } from 'react-router-dom';
 
 const modules = {
@@ -213,7 +213,6 @@ export default function Creator() {
                     )
                 }
             } else {
-                console.log('entrou no atualizar')
                 const articleBody = mountBodyArticleUpdate(
                     formArticle.title,
                     formArticle.subtitle,
@@ -225,7 +224,6 @@ export default function Creator() {
                     token,
                     id
                 )
-                console.log('aaa', articleReturn)
 
                 if (articleReturn.status === 200) {
                     AlertToast(
@@ -252,13 +250,28 @@ export default function Creator() {
                     title: result.records.title,
                     subtitle: result.records.subtitle
                 })
+
+                const s3Material = await reqMaterialBucket(
+                    result.records.material
+                )
+
+                if (s3Material) {
+                    result.records.material = s3Material
+                }
+
                 setValueArticle(result.records.material)
             }
         }
     }
 
+    async function reqMaterialBucket(materialUrl: string) {
+        const materials3: ReturnApi = await getArticleMaterialByUrl(
+            materialUrl
+        )
+        return materials3
+    }
+
     useEffect(() => {
-        console.log('id', id)
         getArticleById()
     }, [])
 
