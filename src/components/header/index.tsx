@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Navbar, Nav, Container, Row, Button, Form } from "react-bootstrap";
+import { Navbar, Nav, Container, Row, Button, Form, Col } from "react-bootstrap";
 import { useNavigate, useLocation } from 'react-router-dom';
 import './styles.scss';
 import { UserContext } from '../../contexts/userContext';
@@ -39,18 +39,25 @@ export default function Header() {
         <Navbar sticky-top collapseOnSelect expand="lg" className="bg-header" variant="dark">
             <Container className="my-3">
 
-                <Navbar.Brand onClick={() => { navigate('/') }}>emporium.</Navbar.Brand>
-                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <Row className='w-100 d-flex align-items-center'>
+                    <Col xs={12} lg={6} className='d-flex justify-content-between'>
+                        <Navbar.Brand onClick={() => { navigate('/') }}>emporium.</Navbar.Brand>
+                        <Navbar.Toggle aria-controls="responsive-navbar-nav" className='mb-2' />
+                    </Col>
 
-                <Row>
-                    <Navbar.Collapse id="responsive-navbar-nav">
-                        <Nav className="">
-                            {/* <Form.Control type="text" placeholder="procure aqui..." /> */}
-                            {logged ? <div className='d-flex align-items-center ms-5 cursor' onClick={() => { navigate('/usuario') }}>{userFace}</div> : ''}
-                            <Button className="mx-2 buttonDefault" onClick={() => { logged ? navigate('/artigos-criador') : navigate('/login') }}>criador</Button>
-                            {logged ? <Button className=" buttonDefault" onClick={logOut}>sair</Button> : ''}
-                        </Nav>
-                    </Navbar.Collapse>
+                    <Col xs={12} lg={6}>
+                        <Navbar.Collapse id="responsive-navbar-nav" className='justify-content-end'>
+                            <Nav className="d-flex flex-row justify-content-end align-items-center">
+                                <div className='color-navbar'>
+                                    {/* <Form.Control type="text" placeholder="procure aqui..." /> */}
+                                    {logged ? <div className='d-flex align-items-center cursor' onClick={() => { navigate('/usuario') }}>{userFace}</div> : ''}
+                                    <Button className="mx-2 buttonDefault" onClick={() => { logged ? navigate('/artigos-criador') : navigate('/login') }}>criador</Button>
+                                    {logged ? <Button className=" buttonDefault" onClick={logOut}>sair</Button> : ''}
+                                </div>
+                            </Nav>
+                        </Navbar.Collapse>
+                    </Col>
+
                 </Row>
 
             </Container>
