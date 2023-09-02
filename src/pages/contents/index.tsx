@@ -74,7 +74,6 @@ export default function Contents() {
                 {
                     Object.values(articlesByContent).map((content) => (
                         <div key={content.id} className="mb-5">
-                            {console.log('conteudo com artigos', content)}
 
                             <h4>{content.title}</h4>
 
@@ -89,7 +88,10 @@ export default function Contents() {
                                         </ListGroup>
                                     </div>
 
-                                )) : ''
+                                )) :
+                                    <div className="groupAmount">
+                                        <p>Ainda não possuímos artigos para esse conteúdo.</p>
+                                    </div>
                             }
 
 

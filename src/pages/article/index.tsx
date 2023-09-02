@@ -12,7 +12,6 @@ const instagram = require("../../assets/images/instagram.png");
 
 export function ArticlePage() {
     const { id } = useParams();
-    const { token, user } = React.useContext(UserContext)
     const [article, setArticle] = useState<Article>();
 
     async function reqArticle() {

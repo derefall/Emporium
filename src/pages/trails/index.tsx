@@ -50,7 +50,7 @@ export default function Trails() {
                                     <Col md="10" className="d-flex align-items-center">
                                         {trail.description}
                                     </Col>
-                                    <Col md="2" className="text-end">
+                                    <Col md="2" className="text-end mt-2">
                                         <Button className="buttonDefault" onClick={() => { navigate(`/conteudos/` + trail.id) }}>Ver</Button>
                                     </Col>
                                 </Row>
