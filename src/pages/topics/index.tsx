@@ -68,7 +68,7 @@ export default function Topics() {
                 <Title title='Sobre o que você quer ler?' />
 
                 {
-                    currentTopics ?
+                    pages ?
 
                         <>
                             <Row>
