@@ -41,7 +41,7 @@ export default function Header() {
 
                 <Row className='w-100 d-flex align-items-center'>
                     <Col xs={12} lg={6} className='d-flex justify-content-between'>
-                        <Navbar.Brand onClick={() => { navigate('/') }}>emporium.</Navbar.Brand>
+                        <Navbar.Brand className='ms-3 ms-md-0' onClick={() => { navigate('/') }}>emporium.</Navbar.Brand>
                         <Navbar.Toggle aria-controls="responsive-navbar-nav" className='mb-2' />
                     </Col>
 

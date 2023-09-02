@@ -7,20 +7,52 @@ import { getTopics } from "../../services/emporium/topics";
 import { useNavigate } from 'react-router-dom';
 import { Topic } from "../../types/topic";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFlask, faPeopleGroup } from '@fortawesome/free-solid-svg-icons'
+import { faFlask, faPeopleGroup, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
 export default function Topics() {
     const navigate = useNavigate();
-    const [topics, setTopics] = useState([]);
+    const [topics, setTopics] = useState<Topic[]>([]);
+    const [cientificTopics, setCientificTopics] = useState<Topic[]>([]);
+
+    const [itensPerPage, setItensPerPage] = useState(5);
+    const [currentPage, setCurrentPage] = useState(0);
 
     const religion = <FontAwesomeIcon icon={faPeopleGroup} size="lg" color="#9582ab" />
     const science = <FontAwesomeIcon icon={faFlask} size="lg" color="#9582ab" />
+
+    const religionMd = <FontAwesomeIcon icon={faPeopleGroup} size="sm" color="#9582ab" />
+    const scienceMd = <FontAwesomeIcon icon={faFlask} size="sm" color="#9582ab" />
+
+    const previous = <FontAwesomeIcon icon={faArrowLeft} size="lg" color="#9582ab" />
+    const next = <FontAwesomeIcon icon={faArrowRight} size="lg" color="#9582ab" />
+
+    const pages = Math.ceil(topics.length / itensPerPage);
+    const startIndex = currentPage * itensPerPage;
+    const endIndex = startIndex + itensPerPage;
+    const currentTopics = topics.slice(startIndex, endIndex);
+    const currentCientificTopics = cientificTopics.slice(startIndex, endIndex);
 
     async function reqTopics() {
         const result: ReturnApi = await getTopics()
 
         if (result.status === 200) {
             setTopics(result.records)
+            const cientificTopics = result.records.filter((e: Topic) => e.scientific)
+            setCientificTopics(cientificTopics)
+        }
+    }
+
+    function handleNextPage() {
+        setCurrentPage(currentPage + 1);
+        if (currentPage === Array(pages).length - 1) {
+            setCurrentPage(currentPage);
+        }
+    }
+
+    function handlePreviousPage() {
+        setCurrentPage(currentPage - 1);
+        if (currentPage === 0) {
+            setCurrentPage(currentPage)
         }
     }
 
@@ -37,32 +69,54 @@ export default function Topics() {
 
                 <Row>
                     <Col md="5" sm="12">
-                        {topics.map((topic: Topic) => (
-                            !topic.scientific ?
-
-                                <Row className="roundItem" onClick={() => { navigate(`/trilhas/` + topic.id) }}>
-                                    <Col md="2" className="d-flex justify-content-center">
-                                        {religion}
-                                    </Col>
-                                    <Col ms="10" className="topicItem">
-                                        <p>{topic.name}</p>
-                                    </Col>
-                                </Row> : ''
+                        {currentTopics.map((topic: Topic) => (
+                            <Row className="roundItem" onClick={() => { navigate(`/trilhas/` + topic.id) }}>
+                                <Col md="2" className="d-md-flex justify-content-center d-none">
+                                    {religion}
+                                </Col>
+                                <Col md="10" className="topicItem d-md-initial d-flex">
+                                    <p className="d-md-none d-flex me-3">{religionMd}</p>
+                                    <p>{topic.name}</p>
+                                </Col>
+                            </Row>
                         ))}
                     </Col>
                     <Col md="5" sm="12">
-                        {topics.map((topic: Topic) => (
-                            topic.scientific ?
-                                <Row className="roundItem" onClick={() => { navigate(`/trilhas/` + topic.id) }}>
-                                    <Col md="2" className="d-flex justify-content-center">
-                                        {science}
-                                    </Col>
-                                    <Col ms="10" className="topicItem">
-                                        <p>{topic.name}</p>
-                                    </Col>
-                                </Row> : ''
+                        {currentCientificTopics.map((topic: Topic) => (
+                            <Row className="roundItem" onClick={() => { navigate(`/trilhas/` + topic.id) }}>
+                                <Col md="2" className="d-md-flex justify-content-center d-none">
+                                    {science}
+                                </Col>
+                                <Col ms="10" className="topicItem d-md-initial d-flex">
+                                    <p className="d-md-none d-flex me-3">{scienceMd}</p>
+                                    <p>{topic.name}</p>
+                                </Col>
+                            </Row>
                         ))}
                     </Col>
+
+                </Row>
+
+                <Row>
+
+                    <div className="mt-5 d-flex justify-content-center align-items-center paginator">
+                        <div className="cursor me-4" onClick={handlePreviousPage}>
+                            {previous}
+                        </div>
+                        {Array.from(Array(pages), (item, index) => {
+                            return <div key={index}>
+                                <button
+                                    value={index}
+                                    onClick={() => setCurrentPage(index)}
+                                >
+                                    {index + 1}
+                                </button>
+                            </div>
+                        })}
+                        <div className="cursor ms-4" onClick={handleNextPage}>
+                            {next}
+                        </div>
+                    </div>
 
                 </Row>
 
