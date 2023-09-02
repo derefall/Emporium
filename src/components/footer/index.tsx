@@ -65,39 +65,42 @@ export default function Footer() {
             <div className="bg-footer">
 
                 <Container>
-                    <Row>
+                    <Row >
                         <Col md={6} sm={12}>
                             <p>Redes sociais Emporium</p>
-                        </Col>
 
-                        <Col md={6} sm={12}>
-                            <p>Dúvidas, sugestões e reclamações</p>
-                        </Col>
-                    </Row>
-
-                    <Row>
-                        <Col md={6} sm={12}>
                             <Row>
                                 <Col>
                                     <img className="imgSocial" src={tiktok} />
                                     <img className="imgSocial" src={telegram} />
                                     <img className="imgSocial" src={instagram} />
+
+                                    <img className="imgSocial d-md-none d-initial" src={spotify} />
+                                    <img className="imgSocial d-md-none d-initial" src={discord} />
                                 </Col>
 
                             </Row>
-                            <Row className="mt-3">
+                            <Row className="mt-3 d-none d-md-flex">
                                 <Col>
                                     <img className="imgSocial" src={spotify} />
                                     <img className="imgSocial" src={discord} />
                                 </Col>
 
                             </Row>
+
                             <Row className="mt-3">
                                 <p>Explicações financeiras e fiscais</p>
+                                <p className='text-align-justify smallText'>O site Emporium <b>não possui anúncios</b> e <b>não é rentável</b> de nenhuma forma.
+                                    <b> Nenhum</b> dos artigos redigidos será monetizado através do site e <b>nenhum criador de conteúdo será pago pela escrita dos artigos</b>.
+                                    Este site é uma <b>iniciativa sem fins lucrativos</b> para facilitar o estudo e criação de conteúdos relacionados a crenças, vida, fé, pessoas, universo e religião.
+                                    <b className='color-important'> Nenhum criador, administrador ou leitor será remunerado</b>.
+                                </p>
                             </Row>
                         </Col>
 
                         <Col md={6} sm={12}>
+
+                            <p>Dúvidas, sugestões e reclamações</p>
 
                             <Form onSubmit={sendEmail}>
                                 <Row>
@@ -122,7 +125,7 @@ export default function Footer() {
                                         />
                                     </Col>
                                     <Col md={6} sm={12}>
-                                        <Form.Group className="mb-3">
+                                        <Form.Group className="mb-3 mt-3 mt-md-0">
                                             <Form.Control
                                                 required
                                                 placeholder="comentário"
@@ -156,7 +159,6 @@ export default function Footer() {
 
                                 </Row>
                             </Form>
-
                         </Col>
                     </Row>
 
