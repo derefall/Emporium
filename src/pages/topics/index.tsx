@@ -67,58 +67,66 @@ export default function Topics() {
 
                 <Title title='Sobre o que você quer ler?' />
 
-                <Row>
-                    <Col md="5" sm="12">
-                        {currentTopics.map((topic: Topic) => (
-                            <Row className="roundItem" onClick={() => { navigate(`/trilhas/` + topic.id) }}>
-                                <Col md="2" className="d-md-flex justify-content-center d-none">
-                                    {religion}
+                {
+                    currentTopics ?
+
+                        <>
+                            <Row>
+                                <Col md="5" sm="12">
+                                    {currentTopics.map((topic: Topic) => (
+                                        <Row className="roundItem" onClick={() => { navigate(`/trilhas/` + topic.id) }}>
+                                            <Col md="2" className="d-md-flex justify-content-center d-none">
+                                                {religion}
+                                            </Col>
+                                            <Col md="10" className="topicItem d-md-initial d-flex">
+                                                <p className="d-md-none d-flex me-3">{religionMd}</p>
+                                                <p>{topic.name}</p>
+                                            </Col>
+                                        </Row>
+                                    ))}
                                 </Col>
-                                <Col md="10" className="topicItem d-md-initial d-flex">
-                                    <p className="d-md-none d-flex me-3">{religionMd}</p>
-                                    <p>{topic.name}</p>
+                                <Col md="5" sm="12">
+                                    {currentCientificTopics.map((topic: Topic) => (
+                                        <Row className="roundItem" onClick={() => { navigate(`/trilhas/` + topic.id) }}>
+                                            <Col md="2" className="d-md-flex justify-content-center d-none">
+                                                {science}
+                                            </Col>
+                                            <Col ms="10" className="topicItem d-md-initial d-flex">
+                                                <p className="d-md-none d-flex me-3">{scienceMd}</p>
+                                                <p>{topic.name}</p>
+                                            </Col>
+                                        </Row>
+                                    ))}
                                 </Col>
+
                             </Row>
-                        ))}
-                    </Col>
-                    <Col md="5" sm="12">
-                        {currentCientificTopics.map((topic: Topic) => (
-                            <Row className="roundItem" onClick={() => { navigate(`/trilhas/` + topic.id) }}>
-                                <Col md="2" className="d-md-flex justify-content-center d-none">
-                                    {science}
-                                </Col>
-                                <Col ms="10" className="topicItem d-md-initial d-flex">
-                                    <p className="d-md-none d-flex me-3">{scienceMd}</p>
-                                    <p>{topic.name}</p>
-                                </Col>
+
+                            <Row>
+
+                                <div className="mt-5 d-flex justify-content-center align-items-center paginator">
+                                    <div className="cursor me-4" onClick={handlePreviousPage}>
+                                        {previous}
+                                    </div>
+                                    {Array.from(Array(pages), (item, index) => {
+                                        return <div key={index}>
+                                            <button
+                                                value={index}
+                                                onClick={() => setCurrentPage(index)}
+                                            >
+                                                {index + 1}
+                                            </button>
+                                        </div>
+                                    })}
+                                    <div className="cursor ms-4" onClick={handleNextPage}>
+                                        {next}
+                                    </div>
+                                </div>
+
                             </Row>
-                        ))}
-                    </Col>
+                        </>
 
-                </Row>
-
-                <Row>
-
-                    <div className="mt-5 d-flex justify-content-center align-items-center paginator">
-                        <div className="cursor me-4" onClick={handlePreviousPage}>
-                            {previous}
-                        </div>
-                        {Array.from(Array(pages), (item, index) => {
-                            return <div key={index}>
-                                <button
-                                    value={index}
-                                    onClick={() => setCurrentPage(index)}
-                                >
-                                    {index + 1}
-                                </button>
-                            </div>
-                        })}
-                        <div className="cursor ms-4" onClick={handleNextPage}>
-                            {next}
-                        </div>
-                    </div>
-
-                </Row>
+                        : <p>Ainda não possuímos nenhum tópico! Entre em contato conosco para criarmos o seu!</p>
+                }
 
 
             </Container>
