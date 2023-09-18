@@ -67,14 +67,18 @@ export function ArticlePage() {
                             <Row className="d-flex justify-content-center author">
                                 <h3 className="mb-4">Sobre o autor</h3>
 
-                                <Col md={8} sm={12}>
+                                <Col sm={12} className="d-flex justify-content-between">
                                     <h4>{article.user.public_name}</h4>
-                                </Col>
-                                <Col md={2} sm={12} className="d-flex justify-content-end">
-                                    <img className="imgSocialMedia" src={instagram} />
+
+                                    {
+                                        article.user.instagram ?
+                                            <a href={article.user.instagram} target="_blank"><img className="imgSocialMedia" src={instagram} /></a>
+                                            : ''
+                                    }
+
                                 </Col>
 
-                                <Col md={10} sm={12}>
+                                <Col sm={11}>
                                     <p>{article.user.description}</p>
                                 </Col>
 
