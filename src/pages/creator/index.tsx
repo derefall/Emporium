@@ -191,8 +191,10 @@ export default function Creator() {
         setValueArticle(value)
     }
 
-    const sendArticle = async () => {
+    const sendArticle = async (e: any) => {
         setLoading(true)
+        e.preventDefault();
+        e.stopPropagation();
 
         if (user?.active) {
 
@@ -215,6 +217,9 @@ export default function Creator() {
                         'Artigo criado com sucesso!',
                         'success'
                     )
+
+                    setFormArticle(defaulFormArticle)
+                    setValueArticle('')
                 } else {
                     AlertToast(
                         'Erro ao criar artigo!',
@@ -225,9 +230,8 @@ export default function Creator() {
                 const articleBody = mountBodyArticleUpdate(
                     formArticle.title,
                     formArticle.subtitle,
-                    valueArticle,
+                    valueArticle
                 )
-
                 const articleReturn = await updateArticle(
                     articleBody,
                     token,
@@ -249,8 +253,6 @@ export default function Creator() {
 
 
         }
-        setFormArticle(defaulFormArticle)
-        setValueArticle('')
         setLoading(false)
     }
 
@@ -461,7 +463,7 @@ export default function Creator() {
                                 <Row className="d-flex justify-content-center">
 
                                     <Col sm={12} md={3}>
-                                        <Form.Select required disabled={!user?.active} className="mb-3" name='topic' value={selectOptions.topic} onChange={handleOptionChange}>
+                                        <Form.Select disabled={!user?.active} className="mb-3" name='topic' value={selectOptions.topic} onChange={handleOptionChange}>
                                             <option>Tópicos</option>
                                             {topicsUser.map((topic: Topic) => (
                                                 <option value={topic.id}>{topic.name}</option>
@@ -471,7 +473,7 @@ export default function Creator() {
 
                                     <Col sm={12} md={3}>
 
-                                        <Form.Select required disabled={!user?.active} className="mb-3" name='trail' value={selectOptions.trail} onChange={handleOptionChange}>
+                                        <Form.Select disabled={!user?.active} className="mb-3" name='trail' value={selectOptions.trail} onChange={handleOptionChange}>
                                             <option>Trilhas</option>
                                             {trailsTopic.map((trail: Trail) => (
                                                 <option value={trail.id}>{trail.name}</option>
@@ -482,7 +484,7 @@ export default function Creator() {
 
                                     <Col sm={12} md={3}>
 
-                                        <Form.Select required disabled={!user?.active} className="mb-3" name='content' value={selectOptions.content} onChange={handleOptionChange}>
+                                        <Form.Select disabled={!user?.active} className="mb-3" name='content' value={selectOptions.content} onChange={handleOptionChange}>
                                             <option>Conteúdos</option>
                                             {contentTrail.map((content: Content) => (
                                                 <option value={content.id}>{content.name}</option>

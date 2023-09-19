@@ -64,6 +64,7 @@ async function updateArticle(article: any, token?: string, id?: string) {
                 'Authorization': `Bearer ${token}`
             }
         });
+        console.log('retorno', articleUpdated)
         return articleUpdated.data;
     } catch (error: any) {
         return error
