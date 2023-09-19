@@ -52,7 +52,7 @@ export function ArticlePage() {
 
             <Title title={article?.title} subtitle={article?.subtitle} isCentered={true} />
 
-            <div>
+            <div className="itens">
                 {
                     article && article?.material ? Parser(article?.material) : ''
                 }

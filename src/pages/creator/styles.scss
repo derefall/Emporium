@@ -36,12 +36,11 @@
 }
 
 .textCreateDiv {
-
     .ql-toolbar.ql-snow {
         background-color: $gray-auxiliar !important;
         padding: 18px !important;
         border-color: $gray-auxiliar !important;
-        font-size: 14px !important;
+        font-size: 16px !important;
 
     }
 
@@ -50,4 +49,23 @@
         overflow: auto;
     }
 
+    .ql-toolbar.ql-snow .ql-formats {
+        margin-right: 30px;
+    }
+
+    .ql-snow.ql-toolbar button,
+    .ql-snow .ql-toolbar button {
+        margin-right: 10px;
+        margin-bottom: 13px;
+    }
+
+    img {
+        width: 50%;
+    }
 }
+
+.nav-link {
+    color: $first-color !important;
+}
+
+.req {}

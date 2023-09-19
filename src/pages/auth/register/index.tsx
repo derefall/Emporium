@@ -102,7 +102,7 @@ export default function Register() {
                             <Modal.Body>
 
                                 <Row>
-                                    <Col className="d-flex justify-content-center align-items-center" md='2' sm='12'>
+                                    <Col className="d-flex justify-content-center align-items-center mb-3" md='2' sm='12'>
                                         {lamp}
                                     </Col>
                                     <Col md='10' sm='12'>
@@ -114,7 +114,7 @@ export default function Register() {
                                 </Row>
 
                                 <Row>
-                                    <Col className="d-flex justify-content-center align-items-center" md='2' sm='12'>
+                                    <Col className="d-flex justify-content-center align-items-center mb-3" md='2' sm='12'>
                                         {check}
                                     </Col>
                                     <Col md='10' sm='12'>
@@ -126,7 +126,7 @@ export default function Register() {
                                 </Row>
 
                                 <Row>
-                                    <Col className="d-flex justify-content-center align-items-center" md='2' sm='12'>
+                                    <Col className="d-flex justify-content-center align-items-center mb-3" md='2' sm='12'>
                                         {pen}
                                     </Col>
                                     <Col md='10' sm='12'>
@@ -169,7 +169,7 @@ export default function Register() {
                                     <Form noValidate validated={validated} onSubmit={handleSubmit}>
                                         <Row>
                                             <Form.Group className="mb-3" controlId="name">
-                                                <Form.Label>Nome</Form.Label>
+                                                <Form.Label>Nome*</Form.Label>
                                                 <Form.Control
                                                     required
                                                     type="text"
@@ -185,9 +185,9 @@ export default function Register() {
 
                                         <Row>
 
-                                            <Col>
+                                            <Col sm={12} md={6}>
                                                 <Form.Group className="mb-3" controlId="email">
-                                                    <Form.Label>E-mail</Form.Label>
+                                                    <Form.Label>E-mail*</Form.Label>
                                                     <Form.Control
                                                         required
                                                         pattern="^\w+@\w+\.\w+$"
@@ -201,9 +201,9 @@ export default function Register() {
                                                 </Form.Group>
                                             </Col>
 
-                                            <Col>
+                                            <Col sm={12} md={6}>
                                                 <Form.Group className="mb-3" controlId="password">
-                                                    <Form.Label>Senha</Form.Label>
+                                                    <Form.Label>Senha*</Form.Label>
                                                     <Form.Control
                                                         required
                                                         pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{8,}$"
@@ -220,7 +220,7 @@ export default function Register() {
                                         </Row>
 
                                         <Row>
-                                            <Col>
+                                            <Col sm={12} md={6}>
                                                 <Form.Group className="mb-3" controlId="public_name">
                                                     <Form.Label>Nome Publico</Form.Label>
                                                     <Form.Control
@@ -232,9 +232,9 @@ export default function Register() {
                                                     />
                                                 </Form.Group>
                                             </Col>
-                                            <Col>
+                                            <Col sm={12} md={6}>
                                                 <Form.Group className="mb-3" controlId="telegram">
-                                                    <Form.Label>Telegram</Form.Label>
+                                                    <Form.Label>Telegram*</Form.Label>
                                                     <Form.Control
                                                         required
                                                         type="link"
@@ -250,7 +250,7 @@ export default function Register() {
 
                                         <Row>
 
-                                            <Col>
+                                            <Col sm={12} md={6}>
                                                 <Form.Group className="mb-3" controlId="facebook">
                                                     <Form.Label>Facebook</Form.Label>
                                                     <Form.Control
@@ -263,7 +263,7 @@ export default function Register() {
                                                 </Form.Group>
                                             </Col>
 
-                                            <Col>
+                                            <Col sm={12} md={6}>
                                                 <Form.Group className="mb-3" controlId="instagram">
                                                     <Form.Label>Instagram</Form.Label>
                                                     <Form.Control
@@ -280,11 +280,11 @@ export default function Register() {
 
                                         <Row>
                                             <Form.Group className="mb-3" controlId="description">
-                                                <Form.Label>Sobre o que você quer escrever no Emporium?</Form.Label>
+                                                <Form.Label>Sobre o que você quer escrever no Emporium?*</Form.Label>
                                                 <Form.Control
                                                     required
                                                     as="textarea"
-                                                    rows={2}
+                                                    rows={3}
                                                     name="description"
                                                     value={formUser.description}
                                                     onChange={handleChange}

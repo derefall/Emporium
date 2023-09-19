@@ -61,7 +61,6 @@ export default function User() {
             token,
             user?.id
         )
-        console.log('aaa', userReturn)
 
         if (userReturn.status === 200) {
             AlertToast(
@@ -88,7 +87,7 @@ export default function User() {
 
                         <Form onSubmit={sendUser} className="formUser">
                             <Row>
-                                <Col>
+                                <Col sm={12} md={6}>
                                     <Form.Group className="mb-3" controlId="name">
                                         <Form.Label>Nome</Form.Label>
                                         <Form.Control
@@ -103,7 +102,7 @@ export default function User() {
                                     </Form.Group>
                                 </Col>
 
-                                <Col>
+                                <Col sm={12} md={6}>
                                     <Form.Group className="mb-3" controlId="email">
                                         <Form.Label>E-mail</Form.Label>
                                         <Form.Control
@@ -121,7 +120,7 @@ export default function User() {
 
                             </Row>
                             <Row>
-                                <Col>
+                                <Col sm={12} md={6}>
                                     <Form.Group className="mb-3" controlId="public_name">
                                         <Form.Label>Nome Publico</Form.Label>
                                         <Form.Control
@@ -133,7 +132,7 @@ export default function User() {
                                         />
                                     </Form.Group>
                                 </Col>
-                                <Col>
+                                <Col sm={12} md={6}>
                                     <Form.Group className="mb-3" controlId="telegram">
                                         <Form.Label>Telegram</Form.Label>
                                         <Form.Control
@@ -151,7 +150,7 @@ export default function User() {
 
                             <Row>
 
-                                <Col>
+                                <Col sm={12} md={6}>
                                     <Form.Group className="mb-3" controlId="facebook">
                                         <Form.Label>Facebook</Form.Label>
                                         <Form.Control
@@ -164,7 +163,7 @@ export default function User() {
                                     </Form.Group>
                                 </Col>
 
-                                <Col>
+                                <Col sm={12} md={6}>
                                     <Form.Group className="mb-3" controlId="instagram">
                                         <Form.Label>Instagram</Form.Label>
                                         <Form.Control

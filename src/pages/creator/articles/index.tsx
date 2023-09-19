@@ -59,7 +59,7 @@ export default function CreatorArticles() {
                 userArticles ? userArticles.map((article: Article) => (
                     <div className='articleItem my-3'>
                         <Row>
-                            <Col md='9' sm='12'>
+                            <Col md='9' sm='12' className='mb-3'>
                                 {article.title}
                             </Col>
                             <Col md='3' sm='12' className='d-flex justify-content-end'>
@@ -76,7 +76,7 @@ export default function CreatorArticles() {
                     </div>
                 ))
                     :
-                    "Você não possui artigos ainda!"
+                    <p>Você não possui artigos ainda!</p>
 
             }
 
