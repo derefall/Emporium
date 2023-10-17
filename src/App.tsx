@@ -16,6 +16,8 @@ import Contents from './pages/contents';
 import { ArticlePage } from './pages/article';
 import Footer from './components/footer';
 import User from './pages/creator/user';
+import NotFound from './pages/notFound';
+import Construction from './pages/construction';
 
 function App() {
   return (
@@ -48,6 +50,8 @@ function App() {
           <Route path="/registro" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/usuario" element={<User />} />
+          <Route path="*" element={<NotFound />} />
+          <Route path="/ongs" element={<Construction />} />
 
         </Routes>
 

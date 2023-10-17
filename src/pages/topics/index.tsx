@@ -168,14 +168,14 @@ export default function Topics() {
 
             </div>
 
-            <Container className="mt-5">
+            <Container className="mt-5 mb-5">
 
                 <Title title='Como posso ajudar?' />
 
                 <div>
 
                     <p className="text-align-justify">Caso você queira fazer parte da comunidade e redigir textos e artigos, basta você ir à página Criador, e realizar a criação da sua conta. Após análise, nós iremos entrar em contato para explicar regras e assim que você for aprovado já terá acesso a área de escrita de artigos relacionada a sua área religiosa ou científica.</p>
-                    <p className="text-align-justify">Você pode auxiliar nossa iniciativa consultando esse link que lhe mostrará diversas ONGs e frentes que você pode ajudar até mesmo na sua cidade, fisicamente ou à distância. Seja com dinheiro, atenção ou prestação de serviços, podemos fazer do mundo um lugar mais adequado para todos os seres vivos!</p>
+                    <p className="text-align-justify">Você pode auxiliar nossa iniciativa consultando esse <a className="cursor" onClick={() => navigate('/ongs')}>link</a> que lhe mostrará diversas ONGs e frentes que você pode ajudar até mesmo na sua cidade, fisicamente ou à distância. Seja com dinheiro, atenção ou prestação de serviços, podemos fazer do mundo um lugar mais adequado para todos os seres vivos!</p>
 
                 </div>
 

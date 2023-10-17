@@ -50,7 +50,7 @@ export default function CreatorArticles() {
 
     return (
 
-        <Container className='mh-100vh'>
+        <Container className='mh-100vh mb-5'>
 
             <Title title={`Seus artigos`} />
 

@@ -26,7 +26,7 @@ export default function Trails() {
 
     return (
 
-        <Container className="mh-100vh">
+        <Container className="mh-100vh mb-5">
 
             {
                 trails.length > 0 ? <Title title={`Trilhas de aprendizado para ${trails ? trails[0].topic.name : ''}`} /> :

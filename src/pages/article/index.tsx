@@ -48,7 +48,7 @@ export function ArticlePage() {
 
 
     return (
-        <Container className="mh-100vh">
+        <Container className="mh-100vh mb-5">
 
             <Title title={article?.title} subtitle={article?.subtitle} isCentered={true} />
 

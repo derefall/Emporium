@@ -309,7 +309,7 @@ export default function Creator() {
     }, [selectOptions.trail])
 
     return (
-        <Container className='mh-100vh'>
+        <Container className='mh-100vh mb-5'>
             {!id ? <Title title={`Olá, ${user ? user?.name : ''}`} /> : ''}
             {!user?.active ? <>
                 <div className='mb-5 info-inactive'>
