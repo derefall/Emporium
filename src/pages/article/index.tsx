@@ -22,12 +22,18 @@ export function ArticlePage() {
 
             if (result.status === 200) {
 
-                const s3Material = await reqMaterialBucket(
-                    result.records.material
-                )
+                try {
+                    const s3Material = await reqMaterialBucket(
+                        result.records.material
+                    )
 
-                if (s3Material) {
-                    result.records.material = s3Material
+                    if (s3Material) {
+                        result.records.material = s3Material
+                    }
+
+                    console.log('aaaaaa', s3Material)
+                } catch (e) {
+                    console.log('erro', e)
                 }
 
                 setArticle(result.records)
